@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
 
-    public static int APP_WIDTH = 960;
-    public static int APP_HEIGHT = 540;
-    public static float ASPECT_RATIO = (float)APP_WIDTH/(float)APP_HEIGHT;
+    public static float APP_WIDTH = 960;
+    public static float APP_HEIGHT = 540;
+    public static float ASPECT_RATIO = APP_WIDTH/APP_HEIGHT;
     public static float WORLD_TO_SCREEN = 32f;
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 

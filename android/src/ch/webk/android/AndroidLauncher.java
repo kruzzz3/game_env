@@ -1,8 +1,7 @@
 package ch.webk.android;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
+import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -19,12 +18,11 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        float sX = size.x;
-        float sY = size.y;
+        float sX = metrics.widthPixels;
+        float sY = metrics.heightPixels;
 
 
         float scaleX = sX / Constants.APP_WIDTH;

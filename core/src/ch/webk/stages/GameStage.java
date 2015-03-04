@@ -31,8 +31,8 @@ public class GameStage extends Stage implements ContactListener {
 
     private Logger l = new Logger("GameStage", true);
 
-    private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
-    private static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
+    private static final float VIEWPORT_WIDTH = Constants.APP_WIDTH;
+    private static final float VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
 
     private final float TIME_STEP = 1 / 45f;
     private float accumulator = 0f;

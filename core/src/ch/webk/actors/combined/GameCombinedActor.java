@@ -45,7 +45,7 @@ public abstract class GameCombinedActor extends GameActor {
 
     public boolean checkTouch(int x, int y) {
         if (isTouchable) {
-            y = Constants.APP_HEIGHT - y;
+            y = (int) Constants.APP_HEIGHT - y;
             if (screenRectangle.contains(x, y)) {
                 return true;
             }

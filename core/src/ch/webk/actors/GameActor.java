@@ -33,7 +33,7 @@ public abstract class GameActor extends Actor {
 
     public boolean checkTouch(int x, int y) {
         if (isTouchable) {
-            y = Constants.APP_HEIGHT - y;
+            y = (int) Constants.APP_HEIGHT - y;
             if (screenRectangle.contains(x, y)) {
                 return true;
             }
