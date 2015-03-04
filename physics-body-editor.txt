@@ -1,1 +1,3 @@
+java -jar physics-body-editor.jar
+
 java6 -jar physics-body-editor.jar

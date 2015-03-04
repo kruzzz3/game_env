@@ -26,15 +26,9 @@ public class AndroidLauncher extends AndroidApplication {
         float sX = size.x;
         float sY = size.y;
 
-        l.i("sx1="+sX);
-        l.i("sx2="+Constants.APP_WIDTH);
-        l.i("sY1="+sY);
-        l.i("sY2="+Constants.APP_HEIGHT);
 
         float scaleX = sX / Constants.APP_WIDTH;
-        l.i("scaleX="+scaleX);
         float scaleY = sY / Constants.APP_HEIGHT;
-        l.i("scaleY="+scaleY);
 
         float scale = 1;
         if (scaleX <= scaleY) {

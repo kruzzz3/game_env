@@ -2,6 +2,7 @@ package ch.webk.stages;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -36,6 +37,8 @@ public class GameStage extends Stage implements ContactListener {
     private final float TIME_STEP = 1 / 45f;
     private float accumulator = 0f;
 
+    private Rectangle vp;
+
     public GameStage() {
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
         l.i("GameStage()");
@@ -43,6 +46,14 @@ public class GameStage extends Stage implements ContactListener {
         ActorManager.init();
         setUpWorld();
         setUpCamera();
+    }
+
+    public void setVp(Rectangle viewport) {
+        vp = viewport;
+    }
+
+    public Rectangle getVp() {
+        return vp;
     }
 
     private void setUpWorld() {
