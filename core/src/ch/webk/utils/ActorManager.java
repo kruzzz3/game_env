@@ -20,6 +20,7 @@ public class ActorManager {
 
     public static void init() {
         l.i("init()");
+
         textureRegions = new HashMap<String,TextureRegion>();
         animations = new HashMap<String,Animation>();
         animationNames = new HashMap<String,String[]>();

@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import java.util.Iterator;
 
+import ch.webk.actors.GameActor;
 import ch.webk.actors.combined.GameCombinedActor;
 import ch.webk.actors.screen.GameScreenActor;
 import ch.webk.box2d.UserData;
@@ -220,4 +221,23 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
+    public void stop() {
+        try {
+            WorldUtils.getWorld().setContactListener(null);
+            Array<Body> bodies = new Array<Body>(WorldUtils.getWorld().getBodyCount());
+            WorldUtils.getWorld().getBodies(bodies);
+            for (Body body : bodies) {
+                WorldUtils.getWorld().destroyBody(body);
+                body = null;
+            }
+            for (Actor actor : getActors()) {
+                try {
+                    ((GameActor) actor).dispose();
+                } catch (Exception e) {
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
 }

@@ -2,6 +2,7 @@ package ch.webk.actors.combined;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Timer;
@@ -10,7 +11,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import ch.webk.actors.screen.Explosion;
 import ch.webk.box2d.CollisionListener;
 import ch.webk.box2d.PolyRocketUserData;
-import ch.webk.stages.TestStage;
+import ch.webk.stages.RocketStage;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Box2dManipulator;
@@ -24,34 +25,38 @@ public class PolyRocket extends GameCombinedActor {
 
     private final TextureRegion textureRegion;
 
-    private float maxAngularVelocity = 5;
-    private float angularAcceleration = 0.1f;
+    private float maxAngularVelocity = 7;
+    private float angularAcceleration = 0.01f;
 
     private float maxSpeed = 20;
     private float currentSpeed = 0;
-    private float acceleration = 0.5f;
-    private float inertia = 0.5f;
+    private float acceleration = 1f;
+    private float inertia = 0.2f;
     private Task task;
 
-    public PolyRocket(Body body) {
+    private static Target target;
+
+    public PolyRocket(Body body, Target target) {
         super(body);
+
         textureRegion = ActorManager.getTextureRegion(Constants.POLY_ROCKET);
         getUserData().setRotationFixDegree(body, 90);
-        setIsTouchable(true);
+        this.target = target;
+
         getUserData().setCollisionListener(new CollisionListener() {
             @Override
             public void beginContact(Body body) {
-                if (BodyUtils.bodyIsTarget(body)) {
-                    explode();
-                }
+            if (BodyUtils.bodyIsTarget(body)) {
+                explode();
+            }
             }
         });
 
         task = Timer.schedule(new Task() {
             @Override
             public void run() {
-                getUserData().setDestroy(true);
-                explode();
+            getUserData().setDestroy(true);
+            explode();
             }
         }, 10);
     }
@@ -86,22 +91,42 @@ public class PolyRocket extends GameCombinedActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        Box2dManipulator.steerAt(body, TestStage.target.getPosition(), angularAcceleration, maxAngularVelocity);
+
+        try {
+            Box2dManipulator.steerAt(body, target.getPosition(), angularAcceleration, maxAngularVelocity, 0);
+        } catch (Exception e) {}
 
         currentSpeed += acceleration;
-        if (currentSpeed > maxSpeed) {
+        float tempCurrentSpeed = currentSpeed;
+
+        if (tempCurrentSpeed > maxSpeed) {
+            //tempCurrentSpeed -= Math.abs(body.getAngularVelocity() / 2);;
+        }
+
+
+        l.i("tempCurrentSpeed="+tempCurrentSpeed);
+        if (tempCurrentSpeed > maxSpeed) {
+            tempCurrentSpeed = maxSpeed;
             currentSpeed = maxSpeed;
+        } else if (tempCurrentSpeed < 0) {
+            tempCurrentSpeed = acceleration;
+            currentSpeed = acceleration;
         }
 
         Vector2 v1 = body.getLinearVelocity().cpy();
         v1.setLength(inertia);
 
-        Vector2 v2 = Box2dManipulator.getLookDirection(body);
+        Vector2 v2 = Box2dManipulator.getLookDirection(body, 0);
         v2.add(v1);
-        v2.setLength(currentSpeed);
+        v2.setLength(tempCurrentSpeed);
 
 
         body.setLinearVelocity(v2);
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        task.cancel();
+    }
 }

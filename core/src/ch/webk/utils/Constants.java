@@ -10,6 +10,8 @@ public class Constants {
     public static float WORLD_TO_SCREEN = 32f;
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 
+    public static final int STAGE_ROCKET = 1;
+
     public static final String WALL = "t_wall";
 
     public static final String POLY_STAR = "t_poly_star";

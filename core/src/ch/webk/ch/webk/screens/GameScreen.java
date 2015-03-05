@@ -5,29 +5,36 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 
 import ch.webk.stages.GameStage;
+import ch.webk.stages.RocketStage;
 import ch.webk.utils.Constants;
+import ch.webk.MyGame;
+import ch.webk.utils.Logger;
 
 public class GameScreen implements Screen {
 
+    private Logger l = new Logger("GameScreen", true);
+
     private GameStage stage;
+    private boolean stop = false;
 
     public GameScreen(GameStage stage) {
         this.stage = stage;
     }
 
-
-
     @Override
     public void render(float delta) {
         // set viewport
-        Rectangle viewport = stage.getVp();
-        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //Update the stage
-        stage.draw();
-        stage.act(delta);
+        if (!stop) {
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            Rectangle viewport = stage.getVp();
+            Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+            //Update the stage
+            stage.act(delta);
+            stage.draw();
+        }
     }
 
     @Override
@@ -76,9 +83,15 @@ public class GameScreen implements Screen {
 
     }
 
+    public void stop() {
+        stop = true;
+        stage.stop();
+        dispose();
+    }
+
     @Override
     public void dispose() {
-
+        l.i("dispose()");
     }
 
 }

@@ -80,14 +80,14 @@ public class ActorGenerator {
         return actor;
     }
 
-    public static PolyRocket createPolyRocket(float posX, float posY, float width, float height) {
+    public static PolyRocket createPolyRocket(float posX, float posY, float width, float height, Target target) {
         l.i("createPolyRocket() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
 
         FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 0f);
         Body body = WorldUtils.getComplexBody(Constants.POLY_ROCKET, fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
         body.setUserData(new PolyRocketUserData(width, height));
 
-        PolyRocket actor = new PolyRocket(body);
+        PolyRocket actor = new PolyRocket(body, target);
         WorldUtils.addActor(actor);
         return actor;
     }

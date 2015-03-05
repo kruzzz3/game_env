@@ -1,4 +1,4 @@
-package ch.webk.actors.combined;
+package ch.webk.actors.screen;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

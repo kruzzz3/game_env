@@ -77,4 +77,8 @@ public abstract class GameActor extends Actor {
 
     public void touchUp() {}
 
+    public void dispose() {
+
+    }
+
 }

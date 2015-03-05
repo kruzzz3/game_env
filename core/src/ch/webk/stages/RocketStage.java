@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ch.webk.actors.combined.Background;
+import ch.webk.actors.screen.Background;
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Runner;
 import ch.webk.actors.combined.Wall;
@@ -15,16 +15,16 @@ import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
 import ch.webk.actors.combined.Target;
 
-public class TestStage extends GameStage {
+public class RocketStage extends GameStage {
 
-    private Logger l = new Logger("TestStage", true);
+    private Logger l = new Logger("RocketStage", true);
 
     private Wall wall;
     private Runner runner;
     private Actor fps;
-    public static Target target;
+    private Target target;
 
-    public TestStage() {
+    public RocketStage() {
         super();
         l.i("TestStage()");
         setUpBackground();
@@ -46,8 +46,8 @@ public class TestStage extends GameStage {
             x = Constants.APP_WIDTH / 2 / Constants.WORLD_TO_SCREEN;
             y = Constants.APP_HEIGHT / 2 / Constants.WORLD_TO_SCREEN;
 
-            ActorGenerator.createPolyRocket(x, y, w * 2, w);
-            return false;
+            ActorGenerator.createPolyRocket(x, y, w * 2, w, target);
+            return true;
         }
         return super.keyDown(keyCode);
     }
