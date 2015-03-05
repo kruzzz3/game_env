@@ -2,7 +2,7 @@ package ch.webk.utils;
 
 public class Logger {
 
-    private static String T = "MyGame";
+    private static String T = "MG";
     public static boolean LOG_ALL = true;
     private boolean log = true;
     private String tag;

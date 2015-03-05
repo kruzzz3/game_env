@@ -1,5 +1,10 @@
 package ch.webk.android;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -7,18 +12,19 @@ import android.view.MenuItem;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.math.MathUtils;
 
 import ch.webk.MyGame;
 import ch.webk.utils.Constants;
 import ch.webk.utils.Logger;
 
-public class AndroidLauncher extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication implements SensorEventListener {
 
-    private Logger l = new Logger("AndroidLauncher", true);
+    private Logger l = new Logger("AL", true);
 
-    private static final int STAGE_ROCKET = 1;
-    private static final int STAGE_POLY = 1;
-    private static final int STAGE_FOLLOW = 1;
+    private SensorManager senSensorManager;
+    private Sensor senAccelerometer;
+    private Sensor senGyroscope;
 
     private AndroidApplicationConfiguration config;
 
@@ -50,17 +56,35 @@ public class AndroidLauncher extends AndroidApplication {
         Constants.APP_HEIGHT = Math.round(Constants.APP_HEIGHT * scale);
         Constants.WORLD_TO_SCREEN = Constants.WORLD_TO_SCREEN * scale;
 
-		config = new AndroidApplicationConfiguration();
-        config.useAccelerometer = true;
+        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        senGyroscope = senSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_GAME);
+        //senSensorManager.registerListener(this, senGyroscope , SensorManager.SENSOR_DELAY_GAME);
+
+
+        config = new AndroidApplicationConfiguration();
         game = new MyGame(Constants.STAGE_ROCKET);
 		initialize(game, config);
 	}
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        senSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+        //senSensorManager.registerListener(this, senGyroscope , SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, Constants.STAGE_ROCKET, Menu.NONE, "Rocket");
         menu.add(Menu.NONE, Constants.STAGE_POLY, Menu.NONE, "Poly");
-        menu.add(Menu.NONE, STAGE_FOLLOW, Menu.NONE, "sdsf");
         return true;
     }
 
@@ -80,5 +104,25 @@ public class AndroidLauncher extends AndroidApplication {
             default:
                 return false;
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        Sensor mySensor = event.sensor;
+        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            int x = (int)(event.values[0] * MathUtils.radiansToDegrees);
+            int y = (int)(event.values[1] * MathUtils.radiansToDegrees);
+            int z = (int)(event.values[2] * MathUtils.radiansToDegrees);
+            //l.i("onSensorChanged x="+x+", y="+y+", z="+z);
+        }
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            Constants.accYDegree = (int) (-event.values[0] * 10);
+            Constants.accXDegree = (int) (event.values[1] * 10);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }

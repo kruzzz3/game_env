@@ -2,6 +2,7 @@ package ch.webk.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
@@ -18,8 +19,6 @@ public class PolyStage extends GameStage {
 
     private Wall wall;
     private Actor fps;
-    private float accelX = 0;
-    private float accelY = 0;
 
     public PolyStage() {
         super();
@@ -74,10 +73,8 @@ public class PolyStage extends GameStage {
     public void act(float delta) {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
-        accelX = Gdx.input.getAccelerometerX();
-        accelY = Gdx.input.getAccelerometerY();
-        l.i("accelX="+accelX);
-        l.i("accelY="+accelY);
+        Vector2 gravity = new Vector2(Constants.accXDegree / 10, Constants.accYDegree / 10);
+        WorldUtils.getWorld().setGravity(gravity);
         //CameraManipulator.setPosition(runner.getScreenX(), runner.getScreenY());
     }
 

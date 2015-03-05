@@ -10,6 +10,9 @@ public class Constants {
     public static float WORLD_TO_SCREEN = 32f;
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 
+    public static int accXDegree = 0;
+    public static int accYDegree = 0;
+
     public static final int STAGE_ROCKET = 1;
     public static final int STAGE_POLY = 2;
 
