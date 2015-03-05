@@ -9,8 +9,6 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import ch.webk.MyGame;
-import ch.webk.ch.webk.screens.GameScreen;
-import ch.webk.stages.RocketStage;
 import ch.webk.utils.Constants;
 import ch.webk.utils.Logger;
 
@@ -53,14 +51,15 @@ public class AndroidLauncher extends AndroidApplication {
         Constants.WORLD_TO_SCREEN = Constants.WORLD_TO_SCREEN * scale;
 
 		config = new AndroidApplicationConfiguration();
+        config.useAccelerometer = true;
         game = new MyGame(Constants.STAGE_ROCKET);
 		initialize(game, config);
 	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(Menu.NONE, STAGE_ROCKET, Menu.NONE, "Rocket");
-        menu.add(Menu.NONE, STAGE_POLY, Menu.NONE, "Poly");
+        menu.add(Menu.NONE, Constants.STAGE_ROCKET, Menu.NONE, "Rocket");
+        menu.add(Menu.NONE, Constants.STAGE_POLY, Menu.NONE, "Poly");
         menu.add(Menu.NONE, STAGE_FOLLOW, Menu.NONE, "sdsf");
         return true;
     }
@@ -68,9 +67,14 @@ public class AndroidLauncher extends AndroidApplication {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case STAGE_ROCKET:
+            case Constants.STAGE_ROCKET:
                 game.stop();
                 game = new MyGame(Constants.STAGE_ROCKET);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_POLY:
+                game.stop();
+                game = new MyGame(Constants.STAGE_POLY);
                 initialize(game, config);
                 return true;
             default:

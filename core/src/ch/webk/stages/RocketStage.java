@@ -4,35 +4,30 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ch.webk.actors.screen.Background;
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.combined.Runner;
+import ch.webk.actors.combined.Target;
 import ch.webk.actors.combined.Wall;
+import ch.webk.actors.screen.Background;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
-import ch.webk.actors.combined.Target;
 
 public class RocketStage extends GameStage {
 
     private Logger l = new Logger("RocketStage", true);
 
     private Wall wall;
-    private Runner runner;
     private Actor fps;
     private Target target;
 
     public RocketStage() {
         super();
-        l.i("TestStage()");
+        l.i("RocketStage()");
         setUpBackground();
-        //setUpWall();
         setUpFPS();
         setUpTarget();
-        //setUpRunner();
-        //setUpTest();
         Gdx.input.setInputProcessor(this);
     }
 
@@ -71,7 +66,6 @@ public class RocketStage extends GameStage {
     public void act(float delta) {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
-        //CameraManipulator.setPosition(runner.getScreenX(), runner.getScreenY());
     }
 
     private void setUpWall() {
@@ -90,12 +84,6 @@ public class RocketStage extends GameStage {
 
         wall = new Wall(WorldUtils.getWall(0f, 0f, width, thickness));
         WorldUtils.addActor(wall);
-    }
-
-
-
-    private void setUpRunner() {
-        runner = ActorGenerator.createRunner(5,5,4,3);
     }
 
     private void setUpTarget() {

@@ -11,6 +11,7 @@ public class Constants {
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 
     public static final int STAGE_ROCKET = 1;
+    public static final int STAGE_POLY = 2;
 
     public static final String WALL = "t_wall";
 
