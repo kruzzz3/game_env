@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import ch.webk.actors.combined.Ball;
+import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.PolyRocket;
 import ch.webk.actors.combined.PolyStairs;
 import ch.webk.actors.combined.PolyStar;
@@ -23,7 +24,7 @@ public class ActorGenerator {
     public static Runner createRunner(float posX, float posY, float width, float height) {
         l.i("createRunner() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
 
-        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 1f);
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 0f);
         Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
         body.setUserData(new SimpleUserData(width, height));
 
@@ -100,6 +101,18 @@ public class ActorGenerator {
         body.setUserData(new TargetUserData(radius * 2, radius * 2));
 
         Target actor = new Target(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static Circle createCircle(float posX, float posY, float radius, BodyDef.BodyType type) {
+        l.i("createCircle() posX=" + posX + ", posY=" + posY + ", radius=" + radius);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(1f, 0f, 0f);
+        Body body = WorldUtils.getCircleBody(fixtureDef, type, posX, posY, radius);
+        body.setUserData(new SimpleUserData(radius * 2, radius * 2));
+
+        Circle actor = new Circle(body);
         WorldUtils.addActor(actor);
         return actor;
     }

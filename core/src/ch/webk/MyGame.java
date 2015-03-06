@@ -3,9 +3,12 @@ package ch.webk;
 import com.badlogic.gdx.Game;
 
 import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.stages.DistanceJointStage;
 import ch.webk.stages.MoveStage;
 import ch.webk.stages.PolyStage;
+import ch.webk.stages.RevoluteJointStage;
 import ch.webk.stages.RocketStage;
+import ch.webk.stages.RopeJointStage;
 import ch.webk.utils.Constants;
 import ch.webk.utils.Logger;
 
@@ -34,6 +37,18 @@ public class MyGame extends Game {
             case Constants.STAGE_MOVE:
                 l.i("create setScreen Move");
                 setScreen(new GameScreen(new MoveStage()));
+                break;
+            case Constants.STAGE_DISTANCE_JOINT:
+                l.i("create setScreen Distance");
+                setScreen(new GameScreen(new DistanceJointStage()));
+                break;
+            case Constants.STAGE_REVOLUTE_JOINT:
+                l.i("create setScreen Revoulte");
+                setScreen(new GameScreen(new RevoluteJointStage()));
+                break;
+            case Constants.STAGE_ROPE_JOINT:
+                l.i("create setScreen Move");
+                setScreen(new GameScreen(new RopeJointStage()));
                 break;
         }
     }

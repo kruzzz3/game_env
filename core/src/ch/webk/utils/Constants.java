@@ -16,6 +16,9 @@ public class Constants {
     public static final int STAGE_ROCKET = 1;
     public static final int STAGE_POLY = 2;
     public static final int STAGE_MOVE = 3;
+    public static final int STAGE_DISTANCE_JOINT = 4;
+    public static final int STAGE_ROPE_JOINT = 5;
+    public static final int STAGE_REVOLUTE_JOINT = 6;
 
     public static final String WALL = "t_wall";
 
@@ -25,6 +28,7 @@ public class Constants {
     public static final String POLY_ROCKET = "t_poly_rocket";
     public static final String TARGET = "t_target";
     public static final String RUNNER = "t_runner";
+    public static final String CIRCLE = "t_circle";
     public static final String BALL = "t_ball";
     public static final String EXPLOSION = "t_explosion";
 

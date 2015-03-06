@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import ch.webk.box2d.RunnerUserData;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.Constants;
+import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
 
@@ -19,10 +20,14 @@ public class Runner extends GameCombinedActor {
 
     private final TextureRegion textureRegion;
 
+    private boolean move = false;
     private float moveToX = 0;
     private float moveToY = 0;
+    private float tol = 0.1f;
 
-    private float maxVel = 1;
+    private float maxVelocity = 10;
+    private float acceleration = 10f;
+    private float inertia = 0.2f;
 
     public Runner(Body body) {
         super(body);
@@ -48,37 +53,31 @@ public class Runner extends GameCombinedActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (move) {
+            float dst = body.getWorldCenter().dst(new Vector2(moveToX,moveToY));
+            if (dst < tol) {
+                body.setLinearVelocity(new Vector2(0,0));
+                move = false;
+            } else {
+                Vector2 vForce = GameMath.relVector(body.getWorldCenter().x, body.getWorldCenter().y, moveToX, moveToY);
+                vForce.setLength(acceleration);
 
-        float x = body.getWorldCenter().x;
-        float y = body.getWorldCenter().y;
+                body.applyForce(vForce, body.getWorldCenter(), true);
 
-        float turnX = 1;
-        if (moveToX < x) {
-            turnX = -1;
+                Vector2 v = body.getLinearVelocity();
+                if (v.len() > maxVelocity) {
+                    v.setLength(maxVelocity);
+                }
+                body.setLinearVelocity(v);
+            }
         }
-        float turnY = 1;
-        if (moveToY < y) {
-            turnY = -1;
-        }
-        x = turnX * Math.abs(moveToX - x);
-        y = turnY * Math.abs(moveToY - y);
-        Vector2 v1 = new Vector2(x,y);
-        Vector2 v2 = new Vector2(moveToX - x,moveToY - y);
-
-
-        l.i("act x="+v1.x+", y="+v1.y);
-        l.i("act x="+v2.x+", y="+v2.y);
-        v1.setLength(1);
-
-        body.setLinearVelocity(v1);
-
-
     }
 
     public void moveTo(float x, float y) {
         l.i("moveTo x="+x+", y="+y);
         moveToX = x;
         moveToY = y;
+        move = true;
     }
 
     @Override

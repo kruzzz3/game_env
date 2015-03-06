@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.math.MathUtils;
 
 import ch.webk.MyGame;
 import ch.webk.utils.Constants;
@@ -86,6 +85,9 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         menu.add(Menu.NONE, Constants.STAGE_ROCKET, Menu.NONE, "Rocket");
         menu.add(Menu.NONE, Constants.STAGE_POLY, Menu.NONE, "Poly");
         menu.add(Menu.NONE, Constants.STAGE_MOVE, Menu.NONE, "Move");
+        menu.add(Menu.NONE, Constants.STAGE_DISTANCE_JOINT, Menu.NONE, "Distance");
+        menu.add(Menu.NONE, Constants.STAGE_REVOLUTE_JOINT, Menu.NONE, "Revolute");
+        menu.add(Menu.NONE, Constants.STAGE_ROPE_JOINT, Menu.NONE, "Rope");
         return true;
     }
 
@@ -105,6 +107,21 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
             case Constants.STAGE_MOVE:
                 game.stop();
                 game = new MyGame(Constants.STAGE_MOVE);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_DISTANCE_JOINT:
+                game.stop();
+                game = new MyGame(Constants.STAGE_DISTANCE_JOINT);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_REVOLUTE_JOINT:
+                game.stop();
+                game = new MyGame(Constants.STAGE_REVOLUTE_JOINT);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_ROPE_JOINT:
+                game.stop();
+                game = new MyGame(Constants.STAGE_ROPE_JOINT);
                 initialize(game, config);
                 return true;
             default:

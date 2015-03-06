@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
@@ -16,19 +15,18 @@ import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
 
-public class MoveStage extends GameStage {
+public class RevoluteJointStage extends GameStage {
 
-    private Logger l = new Logger("MoveStage", true);
+    private Logger l = new Logger("RevoluteJointStage", true);
 
     private Wall wall;
     private Actor fps;
     private Runner runner;
     private Body defaultBody;
-    private MouseJoint mouse;
 
-    public MoveStage() {
+    public RevoluteJointStage() {
         super();
-        l.i("MoveStage()");
+        l.i("RevoluteJointStage()");
         setUpFPS();
         setUpWall();
         setUpRunner();

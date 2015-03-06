@@ -69,6 +69,7 @@ public class ActorManager {
         images.put(Constants.EXPLOSION + "_25","explosion_25.png");
         animationNames.put(Constants.EXPLOSION,getAnimation(Constants.EXPLOSION,25));
 
+        images.put(Constants.CIRCLE,"circle.png");
 
         images.put(Constants.TARGET,"target.png");
 

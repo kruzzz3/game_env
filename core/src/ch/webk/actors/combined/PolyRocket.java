@@ -2,7 +2,6 @@ package ch.webk.actors.combined;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Timer;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.utils.Timer.Task;
 import ch.webk.actors.screen.Explosion;
 import ch.webk.box2d.CollisionListener;
 import ch.webk.box2d.PolyRocketUserData;
-import ch.webk.stages.RocketStage;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Box2dManipulator;
@@ -28,8 +26,8 @@ public class PolyRocket extends GameCombinedActor {
     private float maxAngularVelocity = 7;
     private float angularAcceleration = 0.01f;
 
-    private float maxSpeed = 20;
-    private float currentSpeed = 0;
+    private float maxVelocity = 20;
+    private float currentVelocity = 0;
     private float acceleration = 1f;
     private float inertia = 0.2f;
     private Task task;
@@ -96,21 +94,21 @@ public class PolyRocket extends GameCombinedActor {
             Box2dManipulator.steerAt(body, target.getPosition(), angularAcceleration, maxAngularVelocity, 0);
         } catch (Exception e) {}
 
-        currentSpeed += acceleration;
-        float tempCurrentSpeed = currentSpeed;
+        currentVelocity += acceleration;
+        float tempCurrentSpeed = currentVelocity;
 
-        if (tempCurrentSpeed > maxSpeed) {
+        if (tempCurrentSpeed > maxVelocity) {
             //tempCurrentSpeed -= Math.abs(body.getAngularVelocity() / 2);;
         }
 
 
         l.i("tempCurrentSpeed="+tempCurrentSpeed);
-        if (tempCurrentSpeed > maxSpeed) {
-            tempCurrentSpeed = maxSpeed;
-            currentSpeed = maxSpeed;
+        if (tempCurrentSpeed > maxVelocity) {
+            tempCurrentSpeed = maxVelocity;
+            currentVelocity = maxVelocity;
         } else if (tempCurrentSpeed < 0) {
             tempCurrentSpeed = acceleration;
-            currentSpeed = acceleration;
+            currentVelocity = acceleration;
         }
 
         Vector2 v1 = body.getLinearVelocity().cpy();
