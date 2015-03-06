@@ -27,4 +27,9 @@ public class BodyUtils {
         return userData != null && userData.getUserDataType() == UserDataType.TARGET;
     }
 
+    public static boolean bodyIsBall(Body body) {
+        UserData userData = (UserData) body.getUserData();
+        return userData != null && userData.getUserDataType() == UserDataType.BALL;
+    }
+
 }

@@ -24,7 +24,6 @@ public abstract class UserData {
     public void setRotationFixDegree(Body body, float rotationFixDegree) {
         this.rotationFixRadians = rotationFixDegree * MathUtils.degreesToRadians;
         body.setTransform(body.getPosition().x,body.getPosition().y, this.rotationFixRadians);
-
     }
 
     public float getRotationFixRadians() {

@@ -24,7 +24,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
-    private Sensor senGyroscope;
+    //private Sensor senGyroscope;
 
     private AndroidApplicationConfiguration config;
 
@@ -58,7 +58,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        senGyroscope = senSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        // senGyroscope = senSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_GAME);
         //senSensorManager.registerListener(this, senGyroscope , SensorManager.SENSOR_DELAY_GAME);
 
@@ -85,6 +85,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, Constants.STAGE_ROCKET, Menu.NONE, "Rocket");
         menu.add(Menu.NONE, Constants.STAGE_POLY, Menu.NONE, "Poly");
+        menu.add(Menu.NONE, Constants.STAGE_MOVE, Menu.NONE, "Move");
         return true;
     }
 
@@ -101,6 +102,11 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
                 game = new MyGame(Constants.STAGE_POLY);
                 initialize(game, config);
                 return true;
+            case Constants.STAGE_MOVE:
+                game.stop();
+                game = new MyGame(Constants.STAGE_MOVE);
+                initialize(game, config);
+                return true;
             default:
                 return false;
         }
@@ -109,12 +115,6 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
     @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor mySensor = event.sensor;
-        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            int x = (int)(event.values[0] * MathUtils.radiansToDegrees);
-            int y = (int)(event.values[1] * MathUtils.radiansToDegrees);
-            int z = (int)(event.values[2] * MathUtils.radiansToDegrees);
-            //l.i("onSensorChanged x="+x+", y="+y+", z="+z);
-        }
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             Constants.accYDegree = (int) (-event.values[0] * 10);
             Constants.accXDegree = (int) (event.values[1] * 10);

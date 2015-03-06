@@ -34,7 +34,7 @@ public class GameStage extends Stage implements ContactListener {
     private static final float VIEWPORT_WIDTH = Constants.APP_WIDTH;
     private static final float VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
 
-    private final float TIME_STEP = 1 / 45f;
+    private final float TIME_STEP = 1 / 40f;
     private float accumulator = 0f;
 
     private Rectangle vp;
@@ -102,7 +102,7 @@ public class GameStage extends Stage implements ContactListener {
         accumulator += delta;
 
         while (accumulator >= delta) {
-            WorldUtils.getWorld().step(TIME_STEP, 8, 3);
+            WorldUtils.getWorld().step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
 

@@ -3,6 +3,7 @@ package ch.webk;
 import com.badlogic.gdx.Game;
 
 import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.stages.MoveStage;
 import ch.webk.stages.PolyStage;
 import ch.webk.stages.RocketStage;
 import ch.webk.utils.Constants;
@@ -29,6 +30,10 @@ public class MyGame extends Game {
             case Constants.STAGE_POLY:
                 l.i("create setScreen Poly");
                 setScreen(new GameScreen(new PolyStage()));
+                break;
+            case Constants.STAGE_MOVE:
+                l.i("create setScreen Move");
+                setScreen(new GameScreen(new MoveStage()));
                 break;
         }
     }

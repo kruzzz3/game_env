@@ -53,6 +53,10 @@ public abstract class GameCombinedActor extends GameActor {
         return false;
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     public abstract UserData getUserData();
 
 }

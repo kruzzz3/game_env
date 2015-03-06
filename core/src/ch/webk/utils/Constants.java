@@ -15,6 +15,7 @@ public class Constants {
 
     public static final int STAGE_ROCKET = 1;
     public static final int STAGE_POLY = 2;
+    public static final int STAGE_MOVE = 3;
 
     public static final String WALL = "t_wall";
 
