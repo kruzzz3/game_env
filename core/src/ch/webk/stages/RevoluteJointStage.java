@@ -1,15 +1,17 @@
 package ch.webk.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.combined.Runner;
+import ch.webk.actors.combined.Line;
 import ch.webk.actors.combined.Wall;
-import ch.webk.utils.ActorGenerator;
+import ch.webk.actors.combined.complex.Car;
+import ch.webk.utils.CameraManipulator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
@@ -21,17 +23,88 @@ public class RevoluteJointStage extends GameStage {
 
     private Wall wall;
     private Actor fps;
-    private Runner runner;
-    private Body defaultBody;
+    private Car car;
 
     public RevoluteJointStage() {
         super();
         l.i("RevoluteJointStage()");
         setUpFPS();
-        setUpWall();
-        setUpRunner();
+        //setUpWall();
+        float x1 = 0;
+        float y1 = 10;
+        float x2 = Constants.APP_WIDTH * 2;
+        float y2 = 10;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 0.5f;
+        y2 = y1 + 100;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 2;
+        y2 = y1 + 50;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 1;
+        y2 = y1 + 100;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 0.5f;
+        y2 = y1 - 200;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 1;
+        y2 = y1;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 0.5f;
+        y2 = y1 + 50;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 2;
+        y2 = y1 + 20;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 1;
+        y2 = y1 + 100;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 0.5f;
+        y2 = y1 - 500;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 1;
+        y2 = y1;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        x1 = x2;
+        y1 = y2;
+        x2 = x1 + Constants.APP_WIDTH * 1000;
+        y2 = y1;
+        WorldUtils.addActor(new Line(x1,y1,x2,y2));
+        car = new Car();
         Gdx.input.setInputProcessor(this);
         startDebugRenderer();
+    }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        if (keyCode == Input.Keys.VOLUME_DOWN) {
+            car.drive();
+            return true;
+        } else if (keyCode == Input.Keys.VOLUME_UP) {
+            car.driveBack();
+            return true;
+        }
+        return super.keyDown(keyCode);
     }
 
     @Override
@@ -39,20 +112,7 @@ public class RevoluteJointStage extends GameStage {
         l.i("touchDown x"+x+", y="+y);
 
 
-        l.i("touchDown c x"+WorldUtils.getCamera().position.x+", y="+WorldUtils.getCamera().position.y);
 
-        float xWorld = x / Constants.WORLD_TO_SCREEN;
-        y = (int) Constants.APP_HEIGHT -y;
-        float yWorld = y / Constants.WORLD_TO_SCREEN;
-        Vector2 v1 = new Vector2(xWorld, yWorld);
-        Vector2 v2 = runner.getBody().getPosition();
-
-        float x1 = v1.x - v2.x;
-        float y1 = v2.y - v1.y;
-        Vector2 v = new Vector2(xWorld,yWorld);
-        runner.moveTo(xWorld, yWorld);
-        //mouse.setFrequency(2);
-        //mouse.setTarget(v);
         return super.touchDown(x, y, pointer, button);
     }
 
@@ -65,7 +125,9 @@ public class RevoluteJointStage extends GameStage {
     public void act(float delta) {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
-        // CameraManipulator.setPosition(runner.getScreenX(), runner.getScreenY());
+        //Vector2 gravity = new Vector2(Constants.accXDegree / 10, Constants.accYDegree / 10);
+        WorldUtils.getWorld().setGravity(new Vector2(0,-10));
+        CameraManipulator.setPosition(car.getScreenX(), car.getScreenY());
     }
 
     private void setUpWall() {
@@ -84,27 +146,6 @@ public class RevoluteJointStage extends GameStage {
 
         wall = new Wall(WorldUtils.getWall(0f, 0f, width, thickness));
         WorldUtils.addActor(wall);
-    }
-
-    private void setUpRunner() {
-        l.i("setUpRunner()");
-
-        float w = 2;
-        float h = w * 2;
-        float x = GameMath.getRandomFloat(w, Constants.APP_WIDTH/Constants.WORLD_TO_SCREEN - w);
-        float y = GameMath.getRandomFloat(h, Constants.APP_HEIGHT/Constants.WORLD_TO_SCREEN - h);
-        runner = ActorGenerator.createRunner(x,y,w,h);
-
-        float xWorld = (Constants.APP_WIDTH / Constants.WORLD_TO_SCREEN) / 2;
-        float yWorld = (Constants.APP_HEIGHT / Constants.WORLD_TO_SCREEN) / 2;
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(new Vector2(xWorld, yWorld));
-
-        defaultBody = WorldUtils.getWorld().createBody(bodyDef);
-
-        //mouse = runner.mouse(defaultBody);
     }
 
 }

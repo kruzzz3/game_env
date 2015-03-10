@@ -69,6 +69,14 @@ public abstract class GameActor extends Actor {
         batch.draw(animation.getKeyFrame(stateTime, false),screenRectangle.x,screenRectangle.y,screenRectangle.width * 0.5f,screenRectangle.height * 0.5f,screenRectangle.width,screenRectangle.height, 1f, 1f, rotDegree);
     }
 
+    protected void drawLine(Batch batch, TextureRegion textureRegion, float x1, float y1, float x2, float y2, float thickness) {
+        float dx = x2-x1;
+        float dy = y2-y1;
+        float dist = (float) Math.sqrt(dx*dx + dy*dy);
+        float rad = (float) Math.atan2(dy, dx);
+        batch.draw(textureRegion, x1, y1, dist * 0.5f, thickness * 0.5f, dist, thickness, 1f, 1f, rad);
+    }
+
     protected void setIsTouchable(boolean isTouchable) {
         this.isTouchable = isTouchable;
     }

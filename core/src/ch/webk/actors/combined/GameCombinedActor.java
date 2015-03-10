@@ -18,6 +18,13 @@ public abstract class GameCombinedActor extends GameActor {
 
     public GameCombinedActor(Body body) {
         this.body = body;
+        if (body != null) {
+            this.userData = (UserData) body.getUserData();
+        }
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
         this.userData = (UserData) body.getUserData();
     }
 
@@ -31,7 +38,7 @@ public abstract class GameCombinedActor extends GameActor {
         }
     }
 
-    private void updateRectangle() {
+    protected void updateRectangle() {
         if (isAwake) {
             screenRectangle.x = GameMath.transformToScreen(body.getPosition().x - userData.getWidth() / 2);
             screenRectangle.y = GameMath.transformToScreen(body.getPosition().y - userData.getHeight() / 2);

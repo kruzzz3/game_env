@@ -29,7 +29,11 @@ public class Constants {
     public static final String TARGET = "t_target";
     public static final String RUNNER = "t_runner";
     public static final String CIRCLE = "t_circle";
+    public static final String RECT = "t_rect";
     public static final String BALL = "t_ball";
     public static final String EXPLOSION = "t_explosion";
+
+    public static final String CAR_BODY = "t_car_body";
+    public static final String CAR_WHEEL = "t_car_wheel";
 
 }

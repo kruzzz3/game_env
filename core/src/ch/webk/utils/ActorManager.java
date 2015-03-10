@@ -70,6 +70,7 @@ public class ActorManager {
         animationNames.put(Constants.EXPLOSION,getAnimation(Constants.EXPLOSION,25));
 
         images.put(Constants.CIRCLE,"circle.png");
+        images.put(Constants.RECT,"rect.png");
 
         images.put(Constants.TARGET,"target.png");
 
@@ -84,6 +85,11 @@ public class ActorManager {
 
         images.put(Constants.POLY_ROCKET,"poly_rocket.png");
         vertices.put(Constants.POLY_ROCKET,"[[{\"x\":0.311250,\"y\":0.138750},{\"x\":0.225000,\"y\":0.050000},{\"x\":0.278750,\"y\":0.011250},{\"x\":0.376250,\"y\":0.011250},{\"x\":0.465000,\"y\":0.100000}],[{\"x\":0.465000,\"y\":0.100000},{\"x\":0.686250,\"y\":0.098750},{\"x\":0.948750,\"y\":0.191250},{\"x\":0.998750,\"y\":0.276250},{\"x\":0.948750,\"y\":0.371250},{\"x\":0.703750,\"y\":0.453750}],[{\"x\":0.703750,\"y\":0.453750},{\"x\":0.465000,\"y\":0.465000},{\"x\":0.316250,\"y\":0.421250},{\"x\":0.225000,\"y\":0.275000},{\"x\":0.311250,\"y\":0.138750},{\"x\":0.465000,\"y\":0.100000}],[{\"x\":0.465000,\"y\":0.465000},{\"x\":0.371250,\"y\":0.556250},{\"x\":0.278750,\"y\":0.553750},{\"x\":0.225000,\"y\":0.525000},{\"x\":0.316250,\"y\":0.421250}]]");
+
+
+        images.put(Constants.CAR_BODY,"car_body.png");
+        vertices.put(Constants.CAR_BODY,"[[{\"x\":0.000000,\"y\":0.205000},{\"x\":0.000000,\"y\":0.080000},{\"x\":0.070000,\"y\":0.001250},{\"x\":0.942500,\"y\":0.001250},{\"x\":0.997500,\"y\":0.093750},{\"x\":0.997500,\"y\":0.173750},{\"x\":0.592500,\"y\":0.501250},{\"x\":0.155000,\"y\":0.500000}]]");
+        images.put(Constants.CAR_WHEEL,"car_wheel.png");
 
         //vertices.put(Constants.POLY_STAR,"");
     }
