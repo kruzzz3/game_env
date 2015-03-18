@@ -7,6 +7,7 @@ import ch.webk.box2d.UserData;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
+import ch.webk.utils.WorldUtils;
 
 public abstract class GameCombinedActor extends GameActor {
 
@@ -23,9 +24,8 @@ public abstract class GameCombinedActor extends GameActor {
         }
     }
 
-    public void setBody(Body body) {
-        this.body = body;
-        this.userData = (UserData) body.getUserData();
+    public Body getBody() {
+        return body;
     }
 
     @Override
@@ -41,9 +41,10 @@ public abstract class GameCombinedActor extends GameActor {
     protected void updateRectangle() {
         if (isAwake) {
             screenRectangle.x = GameMath.transformToScreen(body.getPosition().x - userData.getWidth() / 2);
-            screenRectangle.y = GameMath.transformToScreen(body.getPosition().y - userData.getHeight() / 2);
+            screenRectangle.y = GameMath.transformToScreen(body.getPosition().y - userData.getHeight() / 2) + screenRectangle.getOffsetY();
             screenRectangle.width = GameMath.transformToScreen(userData.getWidth());
             screenRectangle.height = GameMath.transformToScreen(userData.getHeight());
+            screenRectangle.rotationDegree = (float) Math.toDegrees(body.getAngle());
         }
         if (isAwake != body.isAwake()) {
             isAwake = body.isAwake();
@@ -52,16 +53,11 @@ public abstract class GameCombinedActor extends GameActor {
 
     public boolean checkTouch(int x, int y) {
         if (isTouchable) {
-            y = (int) Constants.APP_HEIGHT - y;
             if (screenRectangle.contains(x, y)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public Body getBody() {
-        return body;
     }
 
     public abstract UserData getUserData();

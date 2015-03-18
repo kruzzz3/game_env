@@ -41,16 +41,6 @@ public class Runner extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown()");
-    }
-
-    @Override
-    public void touchUp() {
-        l.i("touchUp()");
-    }
-
-    @Override
     public void act(float delta) {
         super.act(delta);
         if (move) {
@@ -83,8 +73,7 @@ public class Runner extends GameCombinedActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawTextureRegion(batch, textureRegion, rotDegree);
+        drawTextureRegion(batch, textureRegion);
     }
 
     public MouseJoint mouse(Body defaultBody) {
@@ -99,5 +88,14 @@ public class Runner extends GameCombinedActor {
         MouseJoint mj = (MouseJoint) WorldUtils.getWorld().createJoint(mjd);
         return mj;
     }
+
+    @Override
+    public void touchDown() {}
+
+    @Override
+    public void touchUp() {}
+
+    @Override
+    public void dispose() {}
 
 }

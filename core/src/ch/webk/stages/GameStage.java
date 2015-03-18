@@ -133,6 +133,13 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         Iterator itr = getActors().iterator();
+
+        x += WorldUtils.getCamera().position.x;
+        y = (int) Constants.APP_HEIGHT - y;
+        y += WorldUtils.getCamera().position.y;
+        x -= Constants.APP_WIDTH / 2;
+        y -= Constants.APP_HEIGHT / 2;
+
         while(itr.hasNext()) {
             Actor actor = (Actor) itr.next();
             try {

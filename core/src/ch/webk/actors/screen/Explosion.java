@@ -21,9 +21,18 @@ public class Explosion extends GameScreenActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        drawAnimation(batch, animation, rotDegree);
+        drawAnimation(batch, animation);
         if (animation.isAnimationFinished(getStateTime())) {
             remove();
         }
     }
+
+    @Override
+    public void touchDown() {}
+
+    @Override
+    public void touchUp() {}
+
+    @Override
+    public void dispose() {}
 }

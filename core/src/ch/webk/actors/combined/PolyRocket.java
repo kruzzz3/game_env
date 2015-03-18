@@ -77,20 +77,9 @@ public class PolyRocket extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown()");
-    }
-
-    @Override
-    public void touchUp() {
-        l.i("touchUp()");
-    }
-
-    @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawTextureRegion(batch, textureRegion, rotDegree);
+        drawTextureRegion(batch, textureRegion);
     }
 
     @Override
@@ -123,13 +112,17 @@ public class PolyRocket extends GameCombinedActor {
         v2.add(v1);
         v2.setLength(tempCurrentSpeed);
 
-
         body.setLinearVelocity(v2);
     }
 
     @Override
+    public void touchDown() {}
+
+    @Override
+    public void touchUp() {}
+
+    @Override
     public void dispose() {
-        super.dispose();
         task.cancel();
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -85,29 +86,18 @@ public class WorldUtils {
         return fixtureDef;
     }
 
-    public static Body createLineBody(float v1x,float v1y, float v2x,float v2y){
+    public static Body createChainBody(FixtureDef fixtureDef, Vector2[] points) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        float posx = (v1x+v2x)/2f;
-        float posy = (v1y+v2y)/2f;
-        float len = (float) Math.sqrt((v1x-v2x)*(v1x-v2x)+(v1y-v2y)*(v1y-v2y));
 
-        float bx = posx / Constants.WORLD_TO_SCREEN;
-        float by = posy / Constants.WORLD_TO_SCREEN;
-        bodyDef.position.set(bx,by);
-        bodyDef.angle=0;
-
-        EdgeShape shape = new EdgeShape();
-        float boxLen = len / Constants.WORLD_TO_SCREEN;
-        shape.set(-boxLen/2f,0,boxLen/2f,0);
-
-        FixtureDef fixtureDef = getFixtureDef(0.5f,0.5f,0);
+        ChainShape shape = new ChainShape();
+        shape.createChain(points);
         fixtureDef.shape = shape;
 
         Body body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
+        //body.setTransform(GameMath.getCenter(points), 0);
 
-        body.setTransform(bx, by, MathUtils.atan2(v2y - v1y, v2x - v1x));
         body.resetMassData();
         shape.dispose();
         return body;
@@ -164,27 +154,6 @@ public class WorldUtils {
         shape.setRadius(radius);
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
-
-        body.resetMassData();
-        shape.dispose();
-        return body;
-    }
-
-    public static Body getWall(float x, float y, float width, float height) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(new Vector2(x + width / 2, y + height / 2));
-
-        Body body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
-
-        FixtureDef fixtureDef = getFixtureDef(1f, 0.5f, 0f);
-        fixtureDef.shape = shape;
-        body.createFixture(fixtureDef);
-
-        body.setUserData(new WallUserData(width, height));
 
         body.resetMassData();
         shape.dispose();

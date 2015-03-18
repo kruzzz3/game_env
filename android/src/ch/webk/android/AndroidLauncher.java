@@ -88,6 +88,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         menu.add(Menu.NONE, Constants.STAGE_DISTANCE_JOINT, Menu.NONE, "Distance");
         menu.add(Menu.NONE, Constants.STAGE_REVOLUTE_JOINT, Menu.NONE, "Revolute");
         menu.add(Menu.NONE, Constants.STAGE_ROPE_JOINT, Menu.NONE, "Rope");
+        menu.add(Menu.NONE, Constants.STAGE_CHAIN, Menu.NONE, "Chain");
         return true;
     }
 
@@ -122,6 +123,11 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
             case Constants.STAGE_ROPE_JOINT:
                 game.stop();
                 game = new MyGame(Constants.STAGE_ROPE_JOINT);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_CHAIN:
+                game.stop();
+                game = new MyGame(Constants.STAGE_CHAIN);
                 initialize(game, config);
                 return true;
             default:

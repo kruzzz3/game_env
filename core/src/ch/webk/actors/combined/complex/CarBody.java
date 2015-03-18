@@ -2,7 +2,9 @@ package ch.webk.actors.combined.complex;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.MassData;
 
 import ch.webk.actors.combined.GameCombinedActor;
 import ch.webk.box2d.SimpleUserData;
@@ -28,8 +30,14 @@ public class CarBody extends GameCombinedActor {
     }
 
     @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        drawTextureRegion(batch, textureRegion);
+    }
+
+    @Override
     public void touchDown() {
-        l.i("touchDown()");
+        l.i("touchDown() GameCombinedActor123");
     }
 
     @Override
@@ -38,9 +46,5 @@ public class CarBody extends GameCombinedActor {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawTextureRegion(batch, textureRegion, rotDegree);
-    }
+    public void dispose() {}
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.combined.Wall;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
@@ -17,7 +16,6 @@ public class PolyStage extends GameStage {
 
     private Logger l = new Logger("PolyStage", true);
 
-    private Wall wall;
     private Actor fps;
 
     public PolyStage() {
@@ -81,19 +79,15 @@ public class PolyStage extends GameStage {
     private void setUpWall() {
         float width = GameMath.transformToWorld(Constants.APP_WIDTH);
         float height = GameMath.transformToWorld(Constants.APP_HEIGHT);
-        float thickness = GameMath.transformToWorld(Constants.WORLD_TO_SCREEN / 4);
 
-        wall = new Wall(WorldUtils.getWall(0f, height - thickness, width, thickness));
-        WorldUtils.addActor(wall);
+        Vector2[] points = new Vector2[5];
+        points[0] = new Vector2(0,0);
+        points[1] = new Vector2(width,0);
+        points[2] = new Vector2(width,height);
+        points[3] = new Vector2(0,height);
+        points[4] = new Vector2(0,0);
 
-        wall = new Wall(WorldUtils.getWall(0f, 0f, thickness, height));
-        WorldUtils.addActor(wall);
-
-        wall = new Wall(WorldUtils.getWall(width - thickness, 0f, thickness, height));
-        WorldUtils.addActor(wall);
-
-        wall = new Wall(WorldUtils.getWall(0f, 0f, width, thickness));
-        WorldUtils.addActor(wall);
+        ActorGenerator.createChainExample1(points);
     }
 
     private void setUpTest() {

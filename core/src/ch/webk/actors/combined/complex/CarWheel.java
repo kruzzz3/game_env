@@ -19,7 +19,6 @@ public class CarWheel extends GameCombinedActor {
     public CarWheel(Body body) {
         super(body);
         textureRegion = ActorManager.getTextureRegion(Constants.CAR_WHEEL);
-        setIsTouchable(true);
     }
 
     @Override
@@ -28,19 +27,17 @@ public class CarWheel extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown()");
-    }
-
-    @Override
-    public void touchUp() {
-        l.i("touchUp()");
-    }
-
-    @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawTextureRegion(batch, textureRegion, rotDegree);
+        drawTextureRegion(batch, textureRegion);
     }
+
+    @Override
+    public void touchDown() {}
+
+    @Override
+    public void touchUp() {}
+
+    @Override
+    public void dispose() {}
 }

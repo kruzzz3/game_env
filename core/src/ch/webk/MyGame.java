@@ -3,6 +3,7 @@ package ch.webk;
 import com.badlogic.gdx.Game;
 
 import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.stages.ChainStage;
 import ch.webk.stages.DistanceJointStage;
 import ch.webk.stages.MoveStage;
 import ch.webk.stages.PolyStage;
@@ -49,6 +50,10 @@ public class MyGame extends Game {
             case Constants.STAGE_ROPE_JOINT:
                 l.i("create setScreen Move");
                 setScreen(new GameScreen(new RopeJointStage()));
+                break;
+            case Constants.STAGE_CHAIN:
+                l.i("create setScreen Chain");
+                setScreen(new GameScreen(new ChainStage()));
                 break;
         }
     }

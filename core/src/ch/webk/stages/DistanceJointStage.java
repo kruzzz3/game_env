@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.combined.Wall;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
@@ -22,7 +21,6 @@ public class DistanceJointStage extends GameStage {
 
     private Logger l = new Logger("DistanceJointStage", true);
 
-    private Wall wall;
     private Actor fps;
     private Circle circleStatic1;
     private Circle circleStatic2;
@@ -40,7 +38,6 @@ public class DistanceJointStage extends GameStage {
         super();
         l.i("DistanceJointStage()");
         setUpFPS();
-        //setUpWall();
         setUpCircleStatic();
         setUpCircleDynamic();
         Gdx.input.setInputProcessor(this);
@@ -75,24 +72,6 @@ public class DistanceJointStage extends GameStage {
     public void act(float delta) {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
-    }
-
-    private void setUpWall() {
-        float width = GameMath.transformToWorld(Constants.APP_WIDTH);
-        float height = GameMath.transformToWorld(Constants.APP_HEIGHT);
-        float thickness = GameMath.transformToWorld(Constants.WORLD_TO_SCREEN / 4);
-
-        wall = new Wall(WorldUtils.getWall(0f, height - thickness, width, thickness));
-        WorldUtils.addActor(wall);
-
-        wall = new Wall(WorldUtils.getWall(0f, 0f, thickness, height));
-        WorldUtils.addActor(wall);
-
-        wall = new Wall(WorldUtils.getWall(width - thickness, 0f, thickness, height));
-        WorldUtils.addActor(wall);
-
-        wall = new Wall(WorldUtils.getWall(0f, 0f, width, thickness));
-        WorldUtils.addActor(wall);
     }
 
     private void setUpCircleStatic() {

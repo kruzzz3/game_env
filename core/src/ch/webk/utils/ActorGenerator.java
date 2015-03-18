@@ -1,5 +1,6 @@
 package ch.webk.utils;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -14,6 +15,7 @@ import ch.webk.actors.combined.Runner;
 import ch.webk.actors.combined.Target;
 import ch.webk.actors.combined.complex.CarBody;
 import ch.webk.actors.combined.complex.CarWheel;
+import ch.webk.actors.lines.ChainExample1;
 import ch.webk.box2d.BallUserData;
 import ch.webk.box2d.PolyRocketUserData;
 import ch.webk.box2d.SimpleUserData;
@@ -139,6 +141,18 @@ public class ActorGenerator {
         body.setUserData(new SimpleUserData(radius * 2, radius * 2));
 
         CarWheel actor = new CarWheel(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static ChainExample1 createChainExample1(Vector2[] points) {
+        l.i("createChainExample1()");
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(1f, 0.2f, 0);
+        Body body = WorldUtils.createChainBody(fixtureDef, points);
+        body.setUserData(new SimpleUserData(0,0));
+
+        ChainExample1 actor = new ChainExample1(body, points);
         WorldUtils.addActor(actor);
         return actor;
     }

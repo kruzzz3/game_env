@@ -32,20 +32,9 @@ public class Target extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown()");
-    }
-
-    @Override
-    public void touchUp() {
-        l.i("touchUp()");
-    }
-
-    @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawTextureRegion(batch, textureRegion, rotDegree);
+        drawTextureRegion(batch, textureRegion);
     }
 
     @Override
@@ -63,4 +52,13 @@ public class Target extends GameCombinedActor {
         x = xNew / Constants.WORLD_TO_SCREEN;
         y = yNew / Constants.WORLD_TO_SCREEN;
     }
+
+    @Override
+    public void touchDown() {}
+
+    @Override
+    public void touchUp() {}
+
+    @Override
+    public void dispose() {}
 }

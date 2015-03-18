@@ -38,19 +38,17 @@ public class Ball extends GameCombinedActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        float rotDegree = (float) Math.toDegrees(body.getAngle());
-        drawLoopAnimation(batch, animation, rotDegree);
+        drawLoopAnimation(batch, animation);
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown() AAAAAAAAAAAA");
-    }
+    public void touchDown() {}
 
     @Override
-    public void touchUp() {
-        l.i("touchUp() BBBBBBBB");
-    }
+    public void touchUp() {}
+
+    @Override
+    public void dispose() {}
 
 
 }
