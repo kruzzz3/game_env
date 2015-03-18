@@ -12,10 +12,4 @@ public class PolyRocketUserData extends UserData {
         userDataType = UserDataType.ROCKET;
     }
 
-    public void beginContact(Body body) {
-        if (BodyUtils.bodyIsTarget(body)) {
-            setDestroy(true);
-        }
-    }
-
 }

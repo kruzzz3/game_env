@@ -44,7 +44,9 @@ public class PolyRocket extends GameCombinedActor {
         getUserData().setCollisionListener(new CollisionListener() {
             @Override
             public void beginContact(Body body) {
+                l.i("beginContact");
                 if (BodyUtils.bodyIsTarget(body)) {
+                    getUserData().setDestroy(true);
                     explode();
                 }
             }
@@ -106,8 +108,6 @@ public class PolyRocket extends GameCombinedActor {
             //tempCurrentSpeed -= Math.abs(body.getAngularVelocity() / 2);;
         }
 
-
-        l.i("tempCurrentSpeed="+tempCurrentSpeed);
         if (tempCurrentSpeed > maxVelocity) {
             tempCurrentSpeed = maxVelocity;
             currentVelocity = maxVelocity;

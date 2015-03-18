@@ -7,8 +7,11 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import java.util.ArrayList;
 
 import ch.webk.enums.UserDataType;
+import ch.webk.utils.Logger;
 
 public abstract class UserData {
+
+    private Logger l = new Logger("UserData", true);
 
     protected UserDataType userDataType;
     private float width;
