@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import ch.webk.actors.GameActor;
@@ -92,6 +94,7 @@ public class GameStage extends Stage implements ContactListener {
         super.act(delta);
 
         Array<Body> bodies = new Array<Body>(WorldUtils.getWorld().getBodyCount());
+
         WorldUtils.getWorld().getBodies(bodies);
 
         for (Body body : bodies) {
@@ -112,6 +115,13 @@ public class GameStage extends Stage implements ContactListener {
     protected void update(Body body) {
         try {
             if (((UserData) body.getUserData()).getDestroy()) {
+                ArrayList<Joint> joints = ((UserData) body.getUserData()).getJoints();
+                for (Joint joint : joints) {
+                    try {
+                        WorldUtils.getWorld().destroyJoint(joint);
+                        joint = null;
+                    } catch (Exception e) {}
+                }
                 body.setUserData(null);
                 WorldUtils.getWorld().destroyBody(body);
                 body = null;

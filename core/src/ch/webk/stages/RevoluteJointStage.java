@@ -3,8 +3,6 @@ package ch.webk.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
@@ -126,7 +124,7 @@ public class RevoluteJointStage extends GameStage {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
         //Vector2 gravity = new Vector2(Constants.accXDegree / 10, Constants.accYDegree / 10);
-        WorldUtils.getWorld().setGravity(new Vector2(0,-10));
+        WorldUtils.getWorld().setGravity(new Vector2(0,-15));
         CameraManipulator.setPosition(car.getScreenX(), car.getScreenY());
     }
 

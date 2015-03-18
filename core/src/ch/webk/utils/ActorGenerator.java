@@ -134,7 +134,7 @@ public class ActorGenerator {
     public static CarWheel createCarWheel(float posX, float posY, float radius) {
         l.i("createCarWheel() posX=" + posX + ", posY=" + posY + ", radius=" + radius);
 
-        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.2f, 1f, 0.1f);
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(1f, 1f, 0.1f);
         Body body = WorldUtils.getCircleBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, radius);
         body.setUserData(new SimpleUserData(radius * 2, radius * 2));
 

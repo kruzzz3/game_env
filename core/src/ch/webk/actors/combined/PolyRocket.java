@@ -44,9 +44,14 @@ public class PolyRocket extends GameCombinedActor {
         getUserData().setCollisionListener(new CollisionListener() {
             @Override
             public void beginContact(Body body) {
-            if (BodyUtils.bodyIsTarget(body)) {
-                explode();
+                if (BodyUtils.bodyIsTarget(body)) {
+                    explode();
+                }
             }
+
+            @Override
+            public void endContact(Body body) {
+
             }
         });
 
