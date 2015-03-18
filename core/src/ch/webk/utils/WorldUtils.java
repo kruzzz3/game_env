@@ -12,6 +12,12 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
+import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -183,6 +189,34 @@ public class WorldUtils {
         body.resetMassData();
         shape.dispose();
         return body;
+    }
+
+    public static RevoluteJoint createRevoluteJoint(Body b1, Vector2 localAnchorA, Body b2, Vector2 localAnchorB, boolean collideConnected) {
+        RevoluteJointDef jointDef = new RevoluteJointDef();
+        jointDef.initialize(b1,b2,b1.getWorldCenter());
+        jointDef.localAnchorA.set(localAnchorA);
+        jointDef.localAnchorB.set(localAnchorB);
+        jointDef.collideConnected = collideConnected;
+        return (RevoluteJoint) world.createJoint(jointDef);
+    }
+
+    public static DistanceJoint createDistanceJoint(Body b1, Vector2 localAnchorA, Body b2, Vector2 localAnchorB, boolean collideConnected) {
+        DistanceJointDef jointDef = new DistanceJointDef();
+        jointDef.initialize(b1, b2, b1.getWorldCenter(), b2.getWorldCenter());
+        jointDef.localAnchorA.set(localAnchorA);
+        jointDef.localAnchorB.set(localAnchorB);
+        jointDef.collideConnected = collideConnected;
+        return (DistanceJoint) WorldUtils.getWorld().createJoint(jointDef);
+    }
+
+    public static RopeJoint createRopeJoint(Body b1, Vector2 localAnchorA, Body b2, Vector2 localAnchorB, boolean collideConnected) {
+        RopeJointDef jointDef = new RopeJointDef();
+        jointDef.bodyA = b1;
+        jointDef.bodyB = b2;
+        jointDef.localAnchorA.set(localAnchorA);
+        jointDef.localAnchorB.set(localAnchorB);
+        jointDef.collideConnected = collideConnected;
+        return (RopeJoint) WorldUtils.getWorld().createJoint(jointDef);
     }
 
 }

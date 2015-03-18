@@ -20,61 +20,48 @@ public class Car {
     private GameCombinedActor carWheel1;
     private GameCombinedActor carWheel2;
 
+    private float carBodyX = 4;
+    private float carBodyY = 4;
+    private float carBodyW = 5;
+    private float carBodyH = 2;
+    private float carWheelR = 0.6f;
+
     RevoluteJoint j1;
     RevoluteJoint j2;
 
     public Car() {
-        float carBodyX = 4;
-        float carBodyY = 4;
-        float carBodyW = 5;
-        float carBodyH = 2;
+        carBody = ActorGenerator.createCarBody(carBodyX, carBodyY, carBodyW, carBodyH);
+        actors.add(carBody);
 
-        carBody = ActorGenerator.createCarBody(carBodyX,carBodyY,carBodyW,carBodyH);
+        // Wheel 1
+        float localAnchorAX = -(carBodyW/2) + (carWheelR * 1.5f);
+        float localAnchorAY = -(carBodyH/2) + (carWheelR / 4);
+        float carWheel1X = carBodyX + localAnchorAX;
+        float carWheel1Y = carBodyY + localAnchorAY;
+        carWheel1 = ActorGenerator.createCarWheel(carWheel1X, carWheel1Y, carWheelR);
+        actors.add(carWheel1);
 
-        carBody.getUserData().setCollisionListener(new CollisionListener() {
-            @Override
-            public void beginContact(Body body) {
-
-            }
-
-            @Override
-            public void endContact(Body body) {
-
-            }
-        });
-
-        float carWheel1R = 0.6f;
-        float carWheel1X = carBodyX-(carBodyW/2) + (carWheel1R * 1.5f);
-        float carWheel1Y = carBodyY-(carBodyH/2) + (carWheel1R / 4);
-
-        carWheel1 = ActorGenerator.createCarWheel(carWheel1X,carWheel1Y,carWheel1R);
-
-        float carWheel2R = 0.6f;
-        float carWheel2X = carBodyX+(carBodyW/2) - (carWheel2R * 1.5f);
-        float carWheel2Y = carBodyY-(carBodyH/2) + (carWheel2R / 4);
-
-
-        carWheel2 = ActorGenerator.createCarWheel(carWheel2X,carWheel2Y,carWheel2R);
-
-
-        float localAnchorA1X = -(carBodyW/2) + (carWheel1R * 1.5f);
-        float localAnchorA1Y = -(carBodyH/2) + (carWheel1R / 4);
-        Vector2 localAnchorA1 = new Vector2(localAnchorA1X, localAnchorA1Y);
-        j1 = createJoint(carWheel1.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA1);
-
-
-        float localAnchorA2X = (carBodyW/2) - (carWheel2R * 1.5f);
-        float localAnchorA2Y = -(carBodyH/2) + (carWheel2R / 4);
-        Vector2 localAnchorA2 = new Vector2(localAnchorA2X, localAnchorA2Y);
-        j2 = createJoint(carWheel2.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA2);
-
+        Vector2 localAnchorA = new Vector2(localAnchorAX, localAnchorAY);
+        j1 = WorldUtils.createRevoluteJoint(carWheel1.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA, false);
+        j1.enableMotor(true);
+        j1.setMaxMotorTorque(15);
         carBody.getUserData().addJointReference(j1);
         carWheel1.getUserData().addJointReference(j1);
+
+        // Wheel 2
+        float localAnchorBX = (carBodyW/2) - (carWheelR * 1.5f);
+        float localAnchorBY = -(carBodyH/2) + (carWheelR / 4);
+        float carWheel2X = carBodyX + localAnchorBX;
+        float carWheel2Y = carBodyY + localAnchorBY;
+        carWheel2 = ActorGenerator.createCarWheel(carWheel2X, carWheel2Y, carWheelR);
+        actors.add(carWheel2);
+
+        Vector2 localAnchorA2 = new Vector2(localAnchorBX, localAnchorBY);
+        j2 = WorldUtils.createRevoluteJoint(carWheel2.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA2, false);
+        j2.enableMotor(true);
+        j2.setMaxMotorTorque(15);
         carBody.getUserData().addJointReference(j2);
         carWheel2.getUserData().addJointReference(j2);
-        actors.add(carBody);
-        actors.add(carWheel1);
-        actors.add(carWheel2);
     }
 
     public float getScreenX() {
@@ -86,25 +73,13 @@ public class Car {
     }
 
     public void drive() {
-        j1.setMotorSpeed(100);
-        j2.setMotorSpeed(100);
+        j1.setMotorSpeed(200);
+        j2.setMotorSpeed(200);
     }
 
     public void driveBack() {
         j1.setMotorSpeed(-200);
         j2.setMotorSpeed(-200);
-    }
-
-    private RevoluteJoint createJoint(Body b1, Vector2 localAnchorA, Body b2, Vector2 localAnchorB) {
-        RevoluteJointDef jd = new RevoluteJointDef();
-        jd.initialize(b1,b2,b1.getWorldCenter());
-
-        jd.maxMotorTorque = 15;
-        jd.localAnchorA.set(localAnchorA);
-        jd.localAnchorB.set(localAnchorB);
-        jd.enableMotor = true;
-        jd.collideConnected=false;
-        return (RevoluteJoint) WorldUtils.getWorld().createJoint(jd);
     }
 
 }

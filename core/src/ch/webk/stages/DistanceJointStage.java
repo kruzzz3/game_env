@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -119,18 +120,11 @@ public class DistanceJointStage extends GameStage {
         circleDynamic4 = ActorGenerator.createCircle(x + (2 * r) + tol,y,r, BodyDef.BodyType.DynamicBody);
         circleDynamic5 = ActorGenerator.createCircle(x + (4 * r) + tol,y,r, BodyDef.BodyType.DynamicBody);
 
-        createJoint(circleStatic1.getBody(), circleDynamic1.getBody());
-        createJoint(circleStatic2.getBody(), circleDynamic2.getBody());
-        createJoint(circleStatic3.getBody(), circleDynamic3.getBody());
-        createJoint(circleStatic4.getBody(), circleDynamic4.getBody());
-        createJoint(circleStatic5.getBody(), circleDynamic5.getBody());
-    }
-
-    private void createJoint(Body b1, Body b2) {
-        DistanceJointDef jd = new DistanceJointDef();
-        jd.initialize(b1, b2, b1.getWorldCenter(), b2.getWorldCenter());
-        jd.collideConnected = true;
-        WorldUtils.getWorld().createJoint(jd);
+        WorldUtils.createDistanceJoint(circleStatic1.getBody(), Vector2.Zero, circleDynamic1.getBody(), Vector2.Zero, true);
+        WorldUtils.createDistanceJoint(circleStatic2.getBody(), Vector2.Zero, circleDynamic2.getBody(), Vector2.Zero, true);
+        WorldUtils.createDistanceJoint(circleStatic3.getBody(), Vector2.Zero, circleDynamic3.getBody(), Vector2.Zero, true);
+        WorldUtils.createDistanceJoint(circleStatic4.getBody(), Vector2.Zero, circleDynamic4.getBody(), Vector2.Zero, true);
+        WorldUtils.createDistanceJoint(circleStatic5.getBody(), Vector2.Zero, circleDynamic5.getBody(), Vector2.Zero, true);
     }
 
 }

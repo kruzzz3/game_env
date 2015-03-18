@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
@@ -119,43 +121,21 @@ public class RopeJointStage extends GameStage {
         circleDynamic3 = ActorGenerator.createCircle(x+2,y,r, BodyDef.BodyType.DynamicBody);
         circleDynamic4 = ActorGenerator.createCircle(x+4,y,r, BodyDef.BodyType.DynamicBody);
 
-        createJoint(circleStatic1.getBody(), circleDynamic1.getBody());
-        createElasticJoint(circleStatic2.getBody(), circleDynamic2.getBody(), 1,6,12);
+        createElasticJoint(circleStatic1.getBody(), circleDynamic1.getBody(), 1,6,12);
+        createElasticJoint(circleStatic2.getBody(), circleDynamic2.getBody(), 0.7f,6,12);
         createElasticJoint(circleStatic3.getBody(), circleDynamic3.getBody(), 0.5f,6,12);
         createElasticJoint(circleStatic4.getBody(), circleDynamic4.getBody(), 0.3f,6,12);
 
 
     }
 
-    private void createJoint(Body b1, Body b2) {
-        RopeJointDef jd = new RopeJointDef();
-        jd.maxLength = 12;
-        jd.localAnchorA.set(Vector2.Zero);
-        jd.localAnchorB.set(Vector2.Zero);
-        jd.bodyA = b1;
-        jd.bodyB = b2;
-        jd.collideConnected = true;
-
-        WorldUtils.getWorld().createJoint(jd);
-    }
-
     private void createElasticJoint(Body b1, Body b2, float bouncy, float minLength, float maxLength) {
-        DistanceJointDef jd = new DistanceJointDef();
-        jd.initialize(b1, b2, b1.getWorldCenter(), b2.getWorldCenter());
-        jd.collideConnected = true;
-        jd.frequencyHz = bouncy;
-        jd.length = minLength;
-        WorldUtils.getWorld().createJoint(jd);
+        DistanceJoint distanceJoint = WorldUtils.createDistanceJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
+        distanceJoint.setFrequency(bouncy);
+        distanceJoint.setLength(minLength);
 
-        RopeJointDef rjd = new RopeJointDef();
-        rjd.maxLength = maxLength;
-        rjd.localAnchorA.set(Vector2.Zero);
-        rjd.localAnchorB.set(Vector2.Zero);
-        rjd.bodyA = b1;
-        rjd.bodyB = b2;
-        rjd.collideConnected = true;
-
-        WorldUtils.getWorld().createJoint(rjd);
+        RopeJoint ropeJoint = WorldUtils.createRopeJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
+        ropeJoint.setMaxLength(maxLength);
     }
 
 }
