@@ -6,6 +6,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import ch.webk.actors.combined.Ball;
+import ch.webk.actors.combined.BarrelWood;
+import ch.webk.actors.combined.Bomb;
+import ch.webk.actors.combined.BoxWood;
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.PolyRocket;
 import ch.webk.actors.combined.PolyStairs;
@@ -16,7 +19,9 @@ import ch.webk.actors.combined.Target;
 import ch.webk.actors.combined.complex.CarBody;
 import ch.webk.actors.combined.complex.CarWheel;
 import ch.webk.actors.lines.ChainExample1;
+import ch.webk.actors.lines.Platform;
 import ch.webk.box2d.BallUserData;
+import ch.webk.box2d.BoxUserData;
 import ch.webk.box2d.PolyRocketUserData;
 import ch.webk.box2d.SimpleUserData;
 import ch.webk.box2d.TargetUserData;
@@ -33,6 +38,54 @@ public class ActorGenerator {
         body.setUserData(new SimpleUserData(width, height));
 
         Runner actor = new Runner(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static BoxWood createBoxWood(float posX, float posY, float width, float height) {
+        l.i("createBoxWood() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.2f, 0.1f, 0f);
+        Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
+        body.setUserData(new BoxUserData(width, height));
+
+        BoxWood actor = new BoxWood(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static BarrelWood createBarrelWood(float posX, float posY, float radius) {
+        l.i("createBarrelWood() posX=" + posX + ", posY=" + posY + ", radius=" + radius);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.2f, 0f);
+        Body body = WorldUtils.getCircleBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, radius);
+        body.setUserData(new BoxUserData(radius * 2, radius * 2));
+
+        BarrelWood actor = new BarrelWood(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static Bomb createBomb(float posX, float posY, float width, float height) {
+        l.i("createBomb() posX=" + posX + ", posY=" + posY + ", width=" + width+", height="+height);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.2f, 0f);
+        Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
+        body.setUserData(new SimpleUserData(width, height));
+
+        Bomb actor = new Bomb(body);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static Platform createPlatform(float posX, float posY, float width, float height) {
+        l.i("createPlatform() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.2f, 0.1f, 0f);
+        Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.StaticBody, posX, posY, width, height);
+        body.setUserData(new SimpleUserData(width, height));
+
+        Platform actor = new Platform(body);
         WorldUtils.addActor(actor);
         return actor;
     }

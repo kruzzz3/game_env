@@ -4,12 +4,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.actors.screen.Explosion;
+import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
+import ch.webk.box2d.CustomRayCastCallback;
 
 public class ExplosionWithForce extends Explosion {
 
@@ -17,44 +20,46 @@ public class ExplosionWithForce extends Explosion {
 
     private float x;
     private float y;
-    private float force = 10;
-    private float distance = (Constants.APP_WIDTH/Constants.WORLD_TO_SCREEN) / 2;
-    private float rayCount = 180;
+    private float force = 5f;
+    private float distance = 20;
+    private float rayCount = 36;
 
     public ExplosionWithForce(float x, float y, float width, float height, float rotDegree) {
         super(Constants.EXPLOSION, x, y, width, height, rotDegree);
-        l.i("ExplosionWithForce");
-        this.x = GameMath.transformToWorld(x);
-        this.y = GameMath.transformToWorld(y);
+        l.i("ExplosionWithForce distance="+distance);
+        this.x = x;
+        this.y = y;
         applyForce();
     }
 
     private void applyForce() {
         l.i("applyForce");
         float radStep = MathUtils.PI2 / rayCount;
+        Vector2 v = new Vector2(0,1);
         for (int i = 0; i <= rayCount; i++) {
             float currentRad = radStep * i;
+            //l.i("i="+i+", currentRad="+currentRad);
             final Vector2 from = new Vector2(x, y);
-            final Vector2 to = GameMath.rotateVector2Radians(from,currentRad);
+            l.i("i="+i+", fromX="+from.x+", fromY="+from.y+", deg="+currentRad* MathUtils.radiansToDegrees);
+            final Vector2 to = GameMath.rotateVector2Radians(v, currentRad);
             to.setLength(distance);
+            to.add(from);
+            l.i("i="+i+", toX="+to.x+", toY="+to.y);
+            final int j = i;
 
-            WorldUtils.getWorld().rayCast(new RayCastCallback() {
+            CustomRayCastCallback customRayCastCallback = new CustomRayCastCallback();
+            WorldUtils.getWorld().rayCast(customRayCastCallback, from, to);
+            Body body = customRayCastCallback.getNearestBody();
+            l.i("body="+body);
+            if (BodyUtils.bodyIsBox(body)) {
+                Vector2 point = customRayCastCallback.getNearestPoint();
+                Vector2 strength = new Vector2(point.x - from.x, point.y - from.y);
 
-                @Override
-                public float reportRayFixture(Fixture fix, Vector2 point, Vector2 normal, float fraction) {
-                    l.i("reportRayFixture");
-                    if (fix != null) {
-                        if (fix.getBody() != null) {
-                            Vector2 strength = new Vector2(point.x - from.x, point.y - from.y);
-                            strength.setLength(force / Math.abs(point.dst(from)));
-                            fix.getBody().applyLinearImpulse(strength, point, true);
-                            return 0;
-                        }
-                    }
-                    return -1;
-                }
-
-            }, from, to);
+                strength.setLength(force / Math.abs(point.dst(from)));
+                float dist = Math.abs(point.dst(from));
+                //l.i("i=" + j + ", dist=" + dist + ", strengthX=" + strength.x + ", strengthY=" + strength.y);
+                body.applyLinearImpulse(strength, point, true);
+            }
         }
     }
 

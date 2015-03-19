@@ -78,6 +78,10 @@ public class ActorManager {
         images.put(Constants.SMOKE + "_7","smoke_7.png");
         animationNames.put(Constants.SMOKE,getAnimation(Constants.SMOKE,7));
 
+        images.put(Constants.BOX_WOOD,"box_wood.png");
+        images.put(Constants.BARREL_WOOD,"barrel_wood.png");
+        images.put(Constants.BOMB,"bomb.png");
+
         images.put(Constants.CIRCLE,"circle.png");
         images.put(Constants.RECT,"rect.png");
 

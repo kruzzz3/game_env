@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import ch.webk.actors.screen.Explosion;
 import ch.webk.box2d.ICollisionListener;
 import ch.webk.box2d.PolyRocketUserData;
+import ch.webk.box2d.UserData;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Box2dManipulator;
@@ -68,7 +69,8 @@ public class PolyRocket extends GameCombinedActor {
 
     private void explode() {
         task.cancel();
-        WorldUtils.addActor(new Explosion(screenRectangle.x, screenRectangle.y, screenRectangle.width * 1.5f, screenRectangle.width * 1.5f, 0));
+        float width = ((UserData)body.getUserData()).getWidth() * 1.5f;
+        WorldUtils.addActor(new Explosion(body.getWorldCenter().x, body.getWorldCenter().y, width, width, 0));
     }
 
     @Override

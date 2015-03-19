@@ -35,6 +35,9 @@ public class Constants {
     public static final String BALL = "t_ball";
     public static final String EXPLOSION = "t_explosion";
     public static final String SMOKE = "t_smoke";
+    public static final String BOX_WOOD = "t_wood_box";
+    public static final String BARREL_WOOD = "t_barrel_box";
+    public static final String BOMB = "t_bomb";
 
     public static final String CAR_BODY = "t_car_body";
     public static final String CAR_WHEEL = "t_car_wheel";

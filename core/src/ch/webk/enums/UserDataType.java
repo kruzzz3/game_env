@@ -7,6 +7,7 @@ public enum UserDataType {
     BALL,
     SIMPLE,
     ROCKET,
-    TARGET
+    TARGET,
+    BOX
 
 }

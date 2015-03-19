@@ -20,7 +20,7 @@ public class Explosion extends GameScreenActor {
 
     public Explosion(String key, float x, float y, float width, float height, float rotDegree) {
         super(x,y,width,height,rotDegree);
-        animation = ActorManager.getAnimation(key, 0.1f);
+        animation = ActorManager.getAnimation(key, 0.05f);
     }
 
     @Override
