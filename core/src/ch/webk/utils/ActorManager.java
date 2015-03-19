@@ -69,6 +69,15 @@ public class ActorManager {
         images.put(Constants.EXPLOSION + "_25","explosion_25.png");
         animationNames.put(Constants.EXPLOSION,getAnimation(Constants.EXPLOSION,25));
 
+        images.put(Constants.SMOKE + "_1","smoke_1.png");
+        images.put(Constants.SMOKE + "_2","smoke_2.png");
+        images.put(Constants.SMOKE + "_3","smoke_3.png");
+        images.put(Constants.SMOKE + "_4","smoke_4.png");
+        images.put(Constants.SMOKE + "_5","smoke_5.png");
+        images.put(Constants.SMOKE + "_6","smoke_6.png");
+        images.put(Constants.SMOKE + "_7","smoke_7.png");
+        animationNames.put(Constants.SMOKE,getAnimation(Constants.SMOKE,7));
+
         images.put(Constants.CIRCLE,"circle.png");
         images.put(Constants.RECT,"rect.png");
 
