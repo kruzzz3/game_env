@@ -20,6 +20,7 @@ public class Constants {
     public static final int STAGE_ROPE_JOINT = 5;
     public static final int STAGE_REVOLUTE_JOINT = 6;
     public static final int STAGE_CHAIN = 7;
+    public static final int STAGE_EXPLOSION = 8;
 
     public static final String WALL = "t_wall";
 

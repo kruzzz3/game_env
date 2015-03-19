@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import ch.webk.actors.screen.Explosion;
-import ch.webk.box2d.CollisionListener;
+import ch.webk.box2d.ICollisionListener;
 import ch.webk.box2d.PolyRocketUserData;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BodyUtils;
@@ -41,13 +41,13 @@ public class PolyRocket extends GameCombinedActor {
         getUserData().setRotationFixDegree(body, 90);
         this.target = target;
 
-        getUserData().setCollisionListener(new CollisionListener() {
+        getUserData().setCollisionListener(new ICollisionListener() {
             @Override
             public void beginContact(Body body) {
                 l.i("beginContact");
                 if (BodyUtils.bodyIsTarget(body)) {
-                    getUserData().setDestroy(true);
                     explode();
+                    getUserData().setDestroy(true);
                 }
             }
 

@@ -18,6 +18,11 @@ public class Explosion extends GameScreenActor {
         animation = ActorManager.getAnimation(Constants.EXPLOSION, 0.1f);
     }
 
+    public Explosion(String key, float x, float y, float width, float height, float rotDegree) {
+        super(x,y,width,height,rotDegree);
+        animation = ActorManager.getAnimation(key, 0.1f);
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);

@@ -15,7 +15,7 @@ public class BallUserData extends UserData {
     @Override
     public void beginContact(Body body) {
         if (BodyUtils.bodyIsSimple(body)) {
-            setDestroy(true);
+            //setDestroy(true);
         }
     }
 }

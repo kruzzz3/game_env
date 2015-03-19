@@ -26,10 +26,11 @@ import ch.webk.actors.screen.GameScreenActor;
 import ch.webk.box2d.UserData;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.Constants;
+import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
 
-public class GameStage extends Stage implements ContactListener {
+public abstract class GameStage extends Stage implements ContactListener {
 
     private Logger l = new Logger("GameStage", true);
 
@@ -38,6 +39,8 @@ public class GameStage extends Stage implements ContactListener {
 
     private final float TIME_STEP = 1 / 40f;
     private float accumulator = 0f;
+
+    private ITouchListener iTouchListener;
 
     private Rectangle vp;
 
@@ -48,6 +51,10 @@ public class GameStage extends Stage implements ContactListener {
         ActorManager.init();
         setUpWorld();
         setUpCamera();
+    }
+
+    public void setTouchListener(ITouchListener iTouchListener) {
+        this.iTouchListener = iTouchListener;
     }
 
     public void setVp(Rectangle viewport) {
@@ -155,28 +162,44 @@ public class GameStage extends Stage implements ContactListener {
                 }
             } catch (Exception e) {}
         }
+
+        if(iTouchListener != null) {
+            iTouchListener.touchDown(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+        }
+
         return super.touchDown(x, y, pointer, button);
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int x, int y, int pointer, int button) {
         Iterator itr = getActors().iterator();
+
+        x += WorldUtils.getCamera().position.x;
+        y = (int) Constants.APP_HEIGHT - y;
+        y += WorldUtils.getCamera().position.y;
+        x -= Constants.APP_WIDTH / 2;
+        y -= Constants.APP_HEIGHT / 2;
+
         while(itr.hasNext()) {
             Actor actor = (Actor) itr.next();
             try {
                 GameCombinedActor a = (GameCombinedActor) actor;
-                if (a.checkTouch(screenX, screenY)) {
+                if (a.checkTouch(x, y)) {
                     a.touchUp();
                 }
             } catch (Exception e) {}
             try {
                 GameScreenActor a = (GameScreenActor) actor;
-                if (a.checkTouch(screenX, screenY)) {
+                if (a.checkTouch(x, y)) {
                     a.touchUp();
                 }
             } catch (Exception e) {}
         }
-        return super.touchUp(screenX, screenY, pointer, button);
+
+        if(iTouchListener != null) {
+            iTouchListener.touchUp(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+        }
+        return super.touchUp(x, y, pointer, button);
     }
 
     @Override

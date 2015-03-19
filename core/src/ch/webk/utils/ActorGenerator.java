@@ -40,7 +40,7 @@ public class ActorGenerator {
     public static Ball createBall(float posX, float posY, float radius) {
         l.i("createRunner() posX=" + posX + ", posY=" + posY + ", radius=" + radius);
 
-        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 1.1f);
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 0f);
         Body body = WorldUtils.getCircleBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, radius);
         body.setUserData(new BallUserData(radius * 2, radius * 2));
 

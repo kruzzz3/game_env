@@ -49,6 +49,12 @@ public class GameMath {
         return (float) Math.atan2(dy, dx);
     }
 
+    public static Vector2 rotateVector2Radians(Vector2 v, float radians) {
+        float ca = MathUtils.cos(radians);
+        float sa = MathUtils.sin(radians);
+        return new Vector2(ca*v.x - sa*v.y, sa*v.x + ca*v.y);
+    }
+
     public static float getAngleDegree(float x1, float y1, float x2, float y2) {
         return getAngleRadians(x1, y1, x2, y2) * MathUtils.radiansToDegrees;
     }

@@ -18,7 +18,7 @@ public abstract class UserData {
     private float height;
     private float rotationFixRadians = 0;
     private boolean destroy = false;
-    private CollisionListener collisionListener;
+    private ICollisionListener iCollisionListener;
     private ArrayList<Joint> joints = new ArrayList<Joint>();
 
     public UserData(float width, float height) {
@@ -67,19 +67,19 @@ public abstract class UserData {
         return joints;
     }
 
-    public void setCollisionListener(CollisionListener collisionListener) {
-        this.collisionListener = collisionListener;
+    public void setCollisionListener(ICollisionListener iCollisionListener) {
+        this.iCollisionListener = iCollisionListener;
     }
 
     public void beginContact(Body body) {
-        if (collisionListener != null) {
-            collisionListener.beginContact(body);
+        if (iCollisionListener != null) {
+            iCollisionListener.beginContact(body);
         }
     }
 
     public void endContact(Body body) {
-        if (collisionListener != null) {
-            collisionListener.endContact(body);
+        if (iCollisionListener != null) {
+            iCollisionListener.endContact(body);
         }
     }
 

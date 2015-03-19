@@ -1,14 +1,11 @@
 package ch.webk.actors.combined.complex;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 import java.util.ArrayList;
 
 import ch.webk.actors.combined.GameCombinedActor;
-import ch.webk.box2d.CollisionListener;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.WorldUtils;
 

@@ -89,6 +89,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         menu.add(Menu.NONE, Constants.STAGE_REVOLUTE_JOINT, Menu.NONE, "Revolute");
         menu.add(Menu.NONE, Constants.STAGE_ROPE_JOINT, Menu.NONE, "Rope");
         menu.add(Menu.NONE, Constants.STAGE_CHAIN, Menu.NONE, "Chain");
+        menu.add(Menu.NONE, Constants.STAGE_EXPLOSION, Menu.NONE, "Explosion");
         return true;
     }
 
@@ -128,6 +129,11 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
             case Constants.STAGE_CHAIN:
                 game.stop();
                 game = new MyGame(Constants.STAGE_CHAIN);
+                initialize(game, config);
+                return true;
+            case Constants.STAGE_EXPLOSION:
+                game.stop();
+                game = new MyGame(Constants.STAGE_EXPLOSION);
                 initialize(game, config);
                 return true;
             default:
