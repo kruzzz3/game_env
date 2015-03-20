@@ -158,7 +158,10 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode != KeyEvent.KEYCODE_MENU) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            openOptionsMenu();
+            return super.onKeyDown(KeyEvent.KEYCODE_MENU, event);
+        } else if (keyCode != KeyEvent.KEYCODE_MENU) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
