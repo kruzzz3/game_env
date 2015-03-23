@@ -33,6 +33,12 @@ public class Circle extends GameCombinedActor {
     }
 
     @Override
+    public boolean touchDown() {
+        l.i("touchDown");
+        return super.touchDown();
+    }
+
+    @Override
     public void dispose() {}
 
     @Override

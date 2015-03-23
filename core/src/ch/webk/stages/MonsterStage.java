@@ -69,6 +69,11 @@ public class MonsterStage extends GameStage {
             public void touchUp(float screenX, float screenY, float worldX, float worldY) {
 
             }
+
+            @Override
+            public void touchDragged(float screenX, float screenY, float worldX, float worldY) {
+
+            }
         });
 
         WorldUtils.getWorld().setGravity(new Vector2(0,-15));

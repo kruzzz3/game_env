@@ -59,7 +59,7 @@ public abstract class GameStage extends Stage implements ContactListener {
         setUpWorld();
         setUpCamera();
         hud = new Hud();
-        // startDebugRenderer();
+        startDebugRenderer();
         Gdx.input.setInputProcessor(this);
     }
 
@@ -211,6 +211,23 @@ public abstract class GameStage extends Stage implements ContactListener {
             }
         }
         return super.touchUp(x, y, pointer, button);
+    }
+
+    @Override
+    public boolean touchDragged(int x, int y, int pointer) {
+
+        x += WorldUtils.getCamera().position.x;
+        y = (int) Constants.APP_HEIGHT - y;
+        y += WorldUtils.getCamera().position.y;
+        x -= Constants.APP_WIDTH / 2;
+        y -= Constants.APP_HEIGHT / 2;
+
+        if(iTouchListener != null) {
+            if (WorldUtils.isRunning()) {
+                iTouchListener.touchDragged(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+            }
+        }
+        return super.touchDragged(x, y, pointer);
     }
 
     @Override

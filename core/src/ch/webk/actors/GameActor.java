@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import ch.webk.actors.ITouchListener;
 import ch.webk.utils.Constants;
 import ch.webk.utils.LibGdxRect;
 import ch.webk.utils.Logger;
@@ -19,6 +20,8 @@ public abstract class GameActor extends Actor {
     protected LibGdxRect screenRectangle;
     protected boolean isTouchable = false;
     private float stateTime = 0;
+
+    private ITouchListener iTouchListener;
 
     public GameActor() {
         screenRectangle = new LibGdxRect();
@@ -86,11 +89,21 @@ public abstract class GameActor extends Actor {
         this.isTouchable = isTouchable;
     }
 
+    public void setTouchListener(ITouchListener iTouchListener) {
+        this.iTouchListener = iTouchListener;
+    }
+
     public boolean touchDown() {
+        if (iTouchListener != null) {
+            iTouchListener.touchDown();
+        }
         return false;
     }
 
     public boolean touchUp() {
+        if (iTouchListener != null) {
+            iTouchListener.touchUp();
+        }
         return false;
     }
 

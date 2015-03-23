@@ -169,27 +169,29 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                WorldUtils.getStage().setUIListener(new IUIListener() {
-                    @Override
-                    public void sendUIAction(final Action action) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (action == Action.OPEN_MENU) {
-                                    l.i("sendUIAction as");
-                                    self.actionOpenMenu();
+                try {
+                    WorldUtils.getStage().setUIListener(new IUIListener() {
+                        @Override
+                        public void sendUIAction(final Action action) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (action == Action.OPEN_MENU) {
+                                        l.i("sendUIAction as");
+                                        self.actionOpenMenu();
+                                    }
                                 }
-                            }
-                        });
-                        l.i("sendUIAction");
+                            });
+                            l.i("sendUIAction");
 
-                    }
-                });
+                        }
+                    });
+                } catch (Exception e) {}
             }
         };
 
         Handler handler = new Handler();
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 1000);
     }
 
     @Override

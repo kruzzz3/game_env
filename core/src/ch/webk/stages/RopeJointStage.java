@@ -7,12 +7,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
+import ch.webk.box2d.UserData;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
@@ -34,7 +36,9 @@ public class RopeJointStage extends GameStage {
     private Circle circleDynamic3;
     private Circle circleDynamic4;
 
-    private Body defaultBody;
+    private  MouseJoint mj;
+
+    private Vector2 target;
 
     public RopeJointStage() {
         super();
@@ -43,7 +47,27 @@ public class RopeJointStage extends GameStage {
         setUpCircleStatic();
         setUpCircleDynamic();
 
-        WorldUtils.getWorld().setGravity(new Vector2(0,-10));
+        WorldUtils.getWorld().setGravity(new Vector2(0,-15));
+
+        setTouchListener(new ITouchListener() {
+            @Override
+            public void touchDown(float screenX, float screenY, float worldX, float worldY) {
+                target = new Vector2(worldX,worldY);
+            }
+
+            @Override
+            public void touchUp(float screenX, float screenY, float worldX, float worldY) {
+                if (mj != null) {
+                    ((UserData) mj.getBodyA().getUserData()).setDestroy(true);
+                    mj = null;
+                }
+            }
+
+            @Override
+            public void touchDragged(float screenX, float screenY, float worldX, float worldY) {
+                target = new Vector2(worldX,worldY);
+            }
+        });
     }
 
     @Override
@@ -72,6 +96,9 @@ public class RopeJointStage extends GameStage {
     @Override
     public void act(float delta) {
         fps.setZIndex(fps.getZIndex()+5);
+        if (mj != null && target != null) {
+            mj.setTarget(target);
+        }
         super.act(delta);
     }
 
@@ -85,7 +112,6 @@ public class RopeJointStage extends GameStage {
         circleStatic2 = ActorGenerator.createCircle(x-1,y,r, BodyDef.BodyType.StaticBody);
         circleStatic3 = ActorGenerator.createCircle(x+1,y,r, BodyDef.BodyType.StaticBody);
         circleStatic4 = ActorGenerator.createCircle(x+3,y,r, BodyDef.BodyType.StaticBody);
-
     }
 
     private void setUpCircleDynamic() {
@@ -95,16 +121,57 @@ public class RopeJointStage extends GameStage {
         float x = (Constants.APP_WIDTH/Constants.WORLD_TO_SCREEN) / 2;
         float y = (r * 5);
         circleDynamic1 = ActorGenerator.createCircle(x-4,y,r, BodyDef.BodyType.DynamicBody);
-        circleDynamic2 = ActorGenerator.createCircle(x-2,y,r, BodyDef.BodyType.DynamicBody);
-        circleDynamic3 = ActorGenerator.createCircle(x+2,y,r, BodyDef.BodyType.DynamicBody);
-        circleDynamic4 = ActorGenerator.createCircle(x+4,y,r, BodyDef.BodyType.DynamicBody);
+        circleDynamic1.setTouchListener(new ch.webk.actors.ITouchListener() {
+            @Override
+            public void touchDown() {
+                mj = WorldUtils.createMouseJoint(circleDynamic1.getBody(), true);
+                target = mj.getTarget();
+            }
 
-        createElasticJoint(circleStatic1.getBody(), circleDynamic1.getBody(), 1,6,12);
+            @Override
+            public void touchUp() {}
+        });
+
+        circleDynamic2 = ActorGenerator.createCircle(x-2,y,r, BodyDef.BodyType.DynamicBody);
+        circleDynamic2.setTouchListener(new ch.webk.actors.ITouchListener() {
+            @Override
+            public void touchDown() {
+                mj = WorldUtils.createMouseJoint(circleDynamic2.getBody(), true);
+                target = mj.getTarget();
+            }
+
+            @Override
+            public void touchUp() {}
+        });
+
+        circleDynamic3 = ActorGenerator.createCircle(x+2,y,r, BodyDef.BodyType.DynamicBody);
+        circleDynamic3.setTouchListener(new ch.webk.actors.ITouchListener() {
+            @Override
+            public void touchDown() {
+                mj = WorldUtils.createMouseJoint(circleDynamic3.getBody(), true);
+                target = mj.getTarget();
+            }
+
+            @Override
+            public void touchUp() {}
+        });
+
+        circleDynamic4 = ActorGenerator.createCircle(x+4,y,r, BodyDef.BodyType.DynamicBody);
+        circleDynamic4.setTouchListener(new ch.webk.actors.ITouchListener() {
+            @Override
+            public void touchDown() {
+                mj = WorldUtils.createMouseJoint(circleDynamic4.getBody(), true);
+                target = mj.getTarget();
+            }
+
+            @Override
+            public void touchUp() {}
+        });
+
+        createElasticJoint(circleStatic1.getBody(), circleDynamic1.getBody(), 1, 6, 12);
         createElasticJoint(circleStatic2.getBody(), circleDynamic2.getBody(), 0.7f,6,12);
         createElasticJoint(circleStatic3.getBody(), circleDynamic3.getBody(), 0.5f,6,12);
         createElasticJoint(circleStatic4.getBody(), circleDynamic4.getBody(), 0.3f,6,12);
-
-
     }
 
     private void createElasticJoint(Body b1, Body b2, float bouncy, float minLength, float maxLength) {
