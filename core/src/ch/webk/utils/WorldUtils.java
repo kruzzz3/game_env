@@ -21,18 +21,35 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import ch.webk.box2d.WallUserData;
+import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.enums.State;
+import ch.webk.stages.GameStage;
 
 public class WorldUtils {
 
     private static Logger l = new Logger("WorldUtils", true);
 
     private static World world;
-    private static Stage stage;
+    private static GameStage stage;
     private static OrthographicCamera camera;
     private static Box2DDebugRenderer renderer;
     private static Matrix4 debugMatrix;
+    private static GameScreen screen;
+
+    public static void setScreen(GameScreen screen) {
+        WorldUtils.screen = screen;
+    }
+
+    public static boolean isRunning() {
+        if (getScreen().getState() == State.RUN) {
+            return true;
+        }
+        return false;
+    }
+
+    public static GameScreen getScreen() {
+        return screen;
+    }
 
     public static void setWorld(World world) {
         WorldUtils.world = world;
@@ -42,11 +59,11 @@ public class WorldUtils {
         return world;
     }
 
-    public static void setStage(Stage stage) {
+    public static void setStage(GameStage stage) {
         WorldUtils.stage = stage;
     }
 
-    public static Stage getStage() {
+    public static GameStage getStage() {
         return stage;
     }
 

@@ -42,8 +42,6 @@ public class Car {
         j1 = WorldUtils.createRevoluteJoint(carWheel1.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA, false);
         j1.enableMotor(true);
         j1.setMaxMotorTorque(15);
-        carBody.getUserData().addJointReference(j1);
-        carWheel1.getUserData().addJointReference(j1);
 
         // Wheel 2
         float localAnchorBX = (carBodyW/2) - (carWheelR * 1.5f);
@@ -57,8 +55,6 @@ public class Car {
         j2 = WorldUtils.createRevoluteJoint(carWheel2.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA2, false);
         j2.enableMotor(true);
         j2.setMaxMotorTorque(15);
-        carBody.getUserData().addJointReference(j2);
-        carWheel2.getUserData().addJointReference(j2);
     }
 
     public float getScreenX() {

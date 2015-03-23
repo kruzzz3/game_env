@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import ch.webk.actors.screen.Explosion;
@@ -14,6 +13,7 @@ import ch.webk.box2d.UserData;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Box2dManipulator;
+import ch.webk.utils.BreakableTimer;
 import ch.webk.utils.Constants;
 import ch.webk.utils.Logger;
 import ch.webk.utils.WorldUtils;
@@ -58,13 +58,17 @@ public class PolyRocket extends GameCombinedActor {
             }
         });
 
-        task = Timer.schedule(new Task() {
+        createTask(5000);
+    }
+
+    private void createTask(float milli) {
+        task = BreakableTimer.addTask(new Task() {
             @Override
             public void run() {
-            getUserData().setDestroy(true);
-            explode();
+                getUserData().setDestroy(true);
+                explode();
             }
-        }, 10);
+        }, milli);
     }
 
     private void explode() {
@@ -87,6 +91,11 @@ public class PolyRocket extends GameCombinedActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+
+        l.i("M1="+task.getExecuteTimeMillis());
+        l.i("M2="+System.currentTimeMillis() % 1000);
+        l.i("M3="+((System.currentTimeMillis() % 1000) - task.getExecuteTimeMillis()));
 
         try {
             Box2dManipulator.steerAt(body, target.getPosition(), angularAcceleration, maxAngularVelocity, 0);
@@ -118,13 +127,12 @@ public class PolyRocket extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {}
-
-    @Override
-    public void touchUp() {}
-
-    @Override
     public void dispose() {
         task.cancel();
+    }
+
+    @Override
+    public void resume() {
+        createTask(BreakableTimer.getTimeLeft(task));
     }
 }

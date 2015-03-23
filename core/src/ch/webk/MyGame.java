@@ -6,6 +6,7 @@ import ch.webk.ch.webk.screens.GameScreen;
 import ch.webk.stages.ChainStage;
 import ch.webk.stages.DistanceJointStage;
 import ch.webk.stages.ExplosionStage;
+import ch.webk.stages.MonsterStage;
 import ch.webk.stages.MoveStage;
 import ch.webk.stages.PolyStage;
 import ch.webk.stages.RevoluteJointStage;
@@ -59,6 +60,10 @@ public class MyGame extends Game {
             case Constants.STAGE_EXPLOSION:
                 l.i("create setScreen Explosion");
                 setScreen(new GameScreen(new ExplosionStage()));
+                break;
+            case Constants.STAGE_MONSTER:
+                l.i("create setScreen Monster");
+                setScreen(new GameScreen(new MonsterStage()));
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package ch.webk.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.JointEdge;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,17 +18,19 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
+import ch.webk.IUIListener;
 import ch.webk.actors.GameActor;
-import ch.webk.actors.combined.GameCombinedActor;
-import ch.webk.actors.screen.GameScreenActor;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.box2d.UserData;
+import ch.webk.enums.Action;
 import ch.webk.utils.ActorManager;
+import ch.webk.utils.BreakableTimer;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
+import ch.webk.utils.UDM;
 import ch.webk.utils.WorldUtils;
 
 public abstract class GameStage extends Stage implements ContactListener {
@@ -41,20 +44,32 @@ public abstract class GameStage extends Stage implements ContactListener {
     private float accumulator = 0f;
 
     private ITouchListener iTouchListener;
+    private IUIListener iUIListener;
 
     private Rectangle vp;
+
+    protected Hud hud;
 
     public GameStage() {
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
         l.i("GameStage()");
+        BreakableTimer.clear();
         WorldUtils.setStage(this);
         ActorManager.init();
         setUpWorld();
         setUpCamera();
+        hud = new Hud();
+        // startDebugRenderer();
+        Gdx.input.setInputProcessor(this);
     }
 
     public void setTouchListener(ITouchListener iTouchListener) {
         this.iTouchListener = iTouchListener;
+    }
+
+    public void setUIListener(IUIListener iUIListener) {
+        l.i("setUIListener");
+        this.iUIListener = iUIListener;
     }
 
     public void setVp(Rectangle viewport) {
@@ -101,9 +116,7 @@ public abstract class GameStage extends Stage implements ContactListener {
         super.act(delta);
 
         Array<Body> bodies = new Array<Body>(WorldUtils.getWorld().getBodyCount());
-
         WorldUtils.getWorld().getBodies(bodies);
-
         for (Body body : bodies) {
             update(body);
         }
@@ -120,20 +133,22 @@ public abstract class GameStage extends Stage implements ContactListener {
     }
 
     protected void update(Body body) {
-        try {
-            if (((UserData) body.getUserData()).getDestroy()) {
-                ArrayList<Joint> joints = ((UserData) body.getUserData()).getJoints();
-                for (Joint joint : joints) {
-                    try {
-                        WorldUtils.getWorld().destroyJoint(joint);
-                        joint = null;
-                    } catch (Exception e) {}
-                }
-                body.setUserData(null);
-                WorldUtils.getWorld().destroyBody(body);
-                body = null;
+
+       try {
+           if (UDM.getUserData(body).getDestroy()) {
+               l.i("update 2");
+               final Array<JointEdge> list = body.getJointList();
+               while (list.size > 0) {
+                   l.i("update J");
+                   WorldUtils.getWorld().destroyJoint(list.get(0).joint);
+               }
+               body.setUserData(null);
+               l.i("update 3");
+               WorldUtils.getWorld().destroyBody(body);
+               body = null;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {l.i("E e="+e);}
+
     }
 
 
@@ -150,21 +165,19 @@ public abstract class GameStage extends Stage implements ContactListener {
         while(itr.hasNext()) {
             Actor actor = (Actor) itr.next();
             try {
-                GameCombinedActor a = (GameCombinedActor) actor;
+                GameActor a = (GameActor) actor;
                 if (a.checkTouch(x, y)) {
-                    a.touchDown();
-                }
-            } catch (Exception e) {}
-            try {
-                GameScreenActor a = (GameScreenActor) actor;
-                if (a.checkTouch(x, y)) {
-                    a.touchDown();
+                    if (a.touchDown()) {
+                        break;
+                    }
                 }
             } catch (Exception e) {}
         }
 
         if(iTouchListener != null) {
-            iTouchListener.touchDown(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+            if (WorldUtils.isRunning()) {
+                iTouchListener.touchDown(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+            }
         }
 
         return super.touchDown(x, y, pointer, button);
@@ -183,39 +196,43 @@ public abstract class GameStage extends Stage implements ContactListener {
         while(itr.hasNext()) {
             Actor actor = (Actor) itr.next();
             try {
-                GameCombinedActor a = (GameCombinedActor) actor;
+                GameActor a = (GameActor) actor;
                 if (a.checkTouch(x, y)) {
-                    a.touchUp();
-                }
-            } catch (Exception e) {}
-            try {
-                GameScreenActor a = (GameScreenActor) actor;
-                if (a.checkTouch(x, y)) {
-                    a.touchUp();
+                    if (a.touchUp()) {
+                        break;
+                    }
                 }
             } catch (Exception e) {}
         }
 
         if(iTouchListener != null) {
-            iTouchListener.touchUp(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+            if (WorldUtils.isRunning()) {
+                iTouchListener.touchUp(x, y, GameMath.transformToWorld(x), GameMath.transformToWorld(y));
+            }
         }
         return super.touchUp(x, y, pointer, button);
     }
 
     @Override
     public void beginContact(Contact contact) {
+        l.i("beginContact");
+        //lock.lock();
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
         try {((UserData) a.getUserData()).beginContact(b);} catch (Exception e) {}
         try {((UserData) b.getUserData()).beginContact(a);} catch (Exception e) {}
+        //lock.unlock();
     }
 
     @Override
     public void endContact(Contact contact) {
+        l.i("endContact");
+        //lock.lock();
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
         try {((UserData) a.getUserData()).endContact(b);} catch (Exception e) {}
         try {((UserData) b.getUserData()).endContact(a);} catch (Exception e) {}
+        //lock.unlock();
     }
 
     @Override
@@ -228,10 +245,37 @@ public abstract class GameStage extends Stage implements ContactListener {
 
     }
 
+    public void sendUIAction(Action action) {
+        l.i("sendUIAction");
+        try {
+            l.i(iUIListener.toString());
+        } catch (Exception e) {
+            l.i("sendUIAction sdf sdf");
+        }
+        if (iUIListener != null) {
+            l.i("sendUIAction 2");
+            iUIListener.sendUIAction(action);
+        }
+    }
+
     public void stop() {
         for (Actor actor : getActors()) {
             try {
                 ((GameActor) actor).dispose();
+            } catch (Exception e) {}
+        }
+    }
+
+    public void pause() {
+        BreakableTimer.stop();
+    }
+
+    public void resume() {
+        int size = getActors().size;
+        for(int i = 0; i < size; i++) {
+            try {
+                GameActor actor = (GameActor) getActors().get(i);
+                actor.resume();
             } catch (Exception e) {}
         }
     }

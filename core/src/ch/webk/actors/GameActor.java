@@ -34,7 +34,6 @@ public abstract class GameActor extends Actor {
 
     public boolean checkTouch(int x, int y) {
         if (isTouchable) {
-            y = (int) Constants.APP_HEIGHT - y;
             if (screenRectangle.contains(x, y)) {
                 return true;
             }
@@ -65,12 +64,21 @@ public abstract class GameActor extends Actor {
     }
 
     protected void drawLoopAnimation(Batch batch, Animation animation) {
-        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += Constants.deltaTime;
         batch.draw(animation.getKeyFrame(stateTime, true), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
+    protected void drawLoopAnimation(Batch batch, Animation animation, boolean flipX) {
+        stateTime += Constants.deltaTime;
+        TextureRegion textureRegion = animation.getKeyFrame(stateTime, true);
+        if (textureRegion.isFlipX() != flipX) {
+            textureRegion.flip(true, false);
+        }
+        batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
+    }
+
     protected void drawAnimation(Batch batch, Animation animation) {
-        stateTime += Gdx.graphics.getDeltaTime();
+        stateTime += Constants.deltaTime;
         batch.draw(animation.getKeyFrame(stateTime, false), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
@@ -78,10 +86,16 @@ public abstract class GameActor extends Actor {
         this.isTouchable = isTouchable;
     }
 
-    abstract public void touchDown();
+    public boolean touchDown() {
+        return false;
+    }
 
-    abstract public void touchUp();
+    public boolean touchUp() {
+        return false;
+    }
 
     abstract public void dispose();
+
+    abstract public void resume();
 
 }

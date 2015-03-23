@@ -5,35 +5,48 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
 
+import ch.webk.enums.State;
 import ch.webk.stages.GameStage;
-import ch.webk.stages.RocketStage;
 import ch.webk.utils.Constants;
-import ch.webk.MyGame;
 import ch.webk.utils.Logger;
+import ch.webk.utils.WorldUtils;
 
 public class GameScreen implements Screen {
 
     private Logger l = new Logger("GameScreen", true);
 
     private GameStage stage;
-    private boolean stop = false;
+    private State state = State.RUN;
 
     public GameScreen(GameStage stage) {
         this.stage = stage;
+        WorldUtils.setScreen(this);
+    }
+
+    public State getState() {
+        return state;
     }
 
     @Override
     public void render(float delta) {
-        // set viewport
-        if (!stop) {
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            Rectangle viewport = stage.getVp();
-            Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-            //Update the stage
-            stage.act(delta);
-            stage.draw();
+        Rectangle viewport = stage.getVp();
+        switch (state) {
+            case RUN:
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+                //Update the stage
+                stage.act(delta);
+                Constants.deltaTime = Gdx.graphics.getDeltaTime();
+                stage.draw();
+                break;
+            case PAUSE:
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+                //Update the stage
+                Constants.deltaTime = 0;
+                stage.draw();
+                break;
         }
     }
 
@@ -65,26 +78,32 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        l.i("show");
     }
 
     @Override
     public void hide() {
-
+        l.i("hide");
     }
 
     @Override
     public void pause() {
-
+        l.i("pause");
+        state = State.PAUSE;
+        stage.pause();
     }
 
     @Override
     public void resume() {
+        l.i("resume");
+        stage.resume();
+        state = State.RUN;
 
     }
 
     public void stop() {
-        stop = true;
+        l.i("stop");
+        state = State.PAUSE;
         stage.stop();
         dispose();
     }

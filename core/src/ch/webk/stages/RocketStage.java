@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Target;
 import ch.webk.actors.screen.Background;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
@@ -24,10 +25,9 @@ public class RocketStage extends GameStage {
     public RocketStage() {
         super();
         l.i("RocketStage()");
-        setUpBackground();
+        //setUpBackground();
         setUpFPS();
         setUpTarget();
-        Gdx.input.setInputProcessor(this);
     }
 
     @Override

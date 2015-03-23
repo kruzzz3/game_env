@@ -29,6 +29,12 @@ public class ActorManager {
 
         images.put("t_background","background.png");
 
+        images.put(Constants.BANNER,"banner.png");
+        images.put(Constants.BTN_BREAK,"btn_break.png");
+        images.put(Constants.BTN_PLAY,"btn_play.png");
+        images.put(Constants.BTN_SETTINGS,"btn_settings.png");
+        images.put(Constants.BTN_MENU,"btn_menu.png");
+
         images.put(Constants.RUNNER,"runner.jpg");
         images.put(Constants.WALL,"ground.png");
 
@@ -41,6 +47,20 @@ public class ActorManager {
         images.put(Constants.BALL + "_7","ball_7.png");
         images.put(Constants.BALL + "_8","ball_8.png");
         animationNames.put(Constants.BALL,getAnimation(Constants.BALL,8));
+
+        images.put(Constants.MONSTER_LAND_GREEN + "_1","monster_land_green_01.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_2","monster_land_green_02.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_3","monster_land_green_03.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_4","monster_land_green_04.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_5","monster_land_green_05.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_6","monster_land_green_06.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_7","monster_land_green_07.png");
+        images.put(Constants.MONSTER_LAND_GREEN + "_8","monster_land_green_08.png");
+        animationNames.put(Constants.MONSTER_LAND_GREEN,getAnimation(Constants.MONSTER_LAND_GREEN,8));
+
+        images.put(Constants.MONSTER_LAND_BLUE + "_1","monster_land_blue_01.png");
+        images.put(Constants.MONSTER_LAND_BLUE + "_2","monster_land_blue_02.png");
+        animationNames.put(Constants.MONSTER_LAND_BLUE,getAnimation(Constants.MONSTER_LAND_BLUE,2));
 
         images.put(Constants.EXPLOSION + "_1","explosion_1.png");
         images.put(Constants.EXPLOSION + "_2","explosion_2.png");

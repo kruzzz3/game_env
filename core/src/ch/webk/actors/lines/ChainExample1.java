@@ -39,11 +39,9 @@ public class ChainExample1 extends AChain {
     }
 
     @Override
-    public void touchDown() {}
-
-    @Override
-    public void touchUp() {}
-
-    @Override
     public void dispose() {}
+
+    @Override
+    public void resume() {}
+
 }

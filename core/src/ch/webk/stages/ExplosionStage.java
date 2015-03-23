@@ -91,9 +91,6 @@ public class ExplosionStage extends GameStage {
 
             }
         });
-
-        Gdx.input.setInputProcessor(this);
-        //startDebugRenderer();
     }
 
     @Override

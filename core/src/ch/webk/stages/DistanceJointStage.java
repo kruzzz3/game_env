@@ -40,8 +40,6 @@ public class DistanceJointStage extends GameStage {
         setUpFPS();
         setUpCircleStatic();
         setUpCircleDynamic();
-        Gdx.input.setInputProcessor(this);
-        startDebugRenderer();
         WorldUtils.getWorld().setGravity(new Vector2(0,-10));
     }
 

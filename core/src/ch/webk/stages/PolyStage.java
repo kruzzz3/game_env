@@ -24,8 +24,6 @@ public class PolyStage extends GameStage {
         setUpWall();
         setUpFPS();
         setUpTest();
-        Gdx.input.setInputProcessor(this);
-        startDebugRenderer();
     }
 
     @Override

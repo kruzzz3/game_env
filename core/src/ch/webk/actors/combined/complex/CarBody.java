@@ -36,15 +36,9 @@ public class CarBody extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {
-        l.i("touchDown() GameCombinedActor123");
-    }
-
-    @Override
-    public void touchUp() {
-        l.i("touchUp()");
-    }
-
-    @Override
     public void dispose() {}
+
+    @Override
+    public void resume() {}
+
 }

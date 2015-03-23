@@ -90,12 +90,9 @@ public class Runner extends GameCombinedActor {
     }
 
     @Override
-    public void touchDown() {}
-
-    @Override
-    public void touchUp() {}
-
-    @Override
     public void dispose() {}
+
+    @Override
+    public void resume() {}
 
 }

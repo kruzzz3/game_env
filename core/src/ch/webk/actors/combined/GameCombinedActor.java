@@ -7,6 +7,7 @@ import ch.webk.box2d.UserData;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
+import ch.webk.utils.UDM;
 import ch.webk.utils.WorldUtils;
 
 public abstract class GameCombinedActor extends GameActor {
@@ -19,9 +20,7 @@ public abstract class GameCombinedActor extends GameActor {
 
     public GameCombinedActor(Body body) {
         this.body = body;
-        if (body != null) {
-            this.userData = (UserData) body.getUserData();
-        }
+        this.userData = (UserData) body.getUserData();
     }
 
     public Body getBody() {
@@ -49,15 +48,6 @@ public abstract class GameCombinedActor extends GameActor {
         if (isAwake != body.isAwake()) {
             isAwake = body.isAwake();
         }
-    }
-
-    public boolean checkTouch(int x, int y) {
-        if (isTouchable) {
-            if (screenRectangle.contains(x, y)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public abstract UserData getUserData();

@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -14,9 +15,12 @@ import android.view.MenuItem;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
+import ch.webk.IUIListener;
 import ch.webk.MyGame;
+import ch.webk.enums.Action;
 import ch.webk.utils.Constants;
 import ch.webk.utils.Logger;
+import ch.webk.utils.WorldUtils;
 
 public class AndroidLauncher extends AndroidApplication implements SensorEventListener {
 
@@ -24,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
+    private static AndroidLauncher self;
     //private Sensor senGyroscope;
 
     private AndroidApplicationConfiguration config;
@@ -66,6 +71,8 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         config = new AndroidApplicationConfiguration();
         game = new MyGame(Constants.STAGE_ROCKET);
 		initialize(game, config);
+        self = this;
+        createUIActionListener();
 	}
 
     @Override
@@ -91,6 +98,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         menu.add(Menu.NONE, Constants.STAGE_ROPE_JOINT, Menu.NONE, "Rope");
         menu.add(Menu.NONE, Constants.STAGE_CHAIN, Menu.NONE, "Chain");
         menu.add(Menu.NONE, Constants.STAGE_EXPLOSION, Menu.NONE, "Explosion");
+        menu.add(Menu.NONE, Constants.STAGE_MONSTER, Menu.NONE, "Monsters");
         return true;
     }
 
@@ -101,45 +109,87 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
                 game.stop();
                 game = new MyGame(Constants.STAGE_ROCKET);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_POLY:
                 game.stop();
                 game = new MyGame(Constants.STAGE_POLY);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_MOVE:
                 game.stop();
                 game = new MyGame(Constants.STAGE_MOVE);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_DISTANCE_JOINT:
                 game.stop();
                 game = new MyGame(Constants.STAGE_DISTANCE_JOINT);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_REVOLUTE_JOINT:
                 game.stop();
                 game = new MyGame(Constants.STAGE_REVOLUTE_JOINT);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_ROPE_JOINT:
                 game.stop();
                 game = new MyGame(Constants.STAGE_ROPE_JOINT);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_CHAIN:
                 game.stop();
                 game = new MyGame(Constants.STAGE_CHAIN);
                 initialize(game, config);
+                createUIActionListener();
                 return true;
             case Constants.STAGE_EXPLOSION:
                 game.stop();
                 game = new MyGame(Constants.STAGE_EXPLOSION);
                 initialize(game, config);
+                createUIActionListener();
+                return true;
+            case Constants.STAGE_MONSTER:
+                game.stop();
+                game = new MyGame(Constants.STAGE_MONSTER);
+                initialize(game, config);
+                createUIActionListener();
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void createUIActionListener() {
+        l.i("createUIActionListener");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                WorldUtils.getStage().setUIListener(new IUIListener() {
+                    @Override
+                    public void sendUIAction(final Action action) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (action == Action.OPEN_MENU) {
+                                    l.i("sendUIAction as");
+                                    self.actionOpenMenu();
+                                }
+                            }
+                        });
+                        l.i("sendUIAction");
+
+                    }
+                });
+            }
+        };
+
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 500);
     }
 
     @Override
@@ -151,6 +201,10 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         }
     }
 
+    public void actionOpenMenu() {
+        openOptionsMenu();
+    }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
@@ -158,9 +212,12 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        l.i("onKeyDown");
         if (keyCode != KeyEvent.KEYCODE_MENU) {
             return true;
         }
+
         return super.onKeyDown(keyCode, event);
     }
+
 }
