@@ -26,8 +26,6 @@ public class RevoluteJointStage extends GameStage {
         setUpFPS();
 
         car = new Car();
-        Gdx.input.setInputProcessor(this);
-        startDebugRenderer();
     }
 
     @Override

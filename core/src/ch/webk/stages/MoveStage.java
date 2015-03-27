@@ -30,8 +30,6 @@ public class MoveStage extends GameStage {
         setUpFPS();
         setUpWall();
         setUpRunner();
-        Gdx.input.setInputProcessor(this);
-        startDebugRenderer();
     }
 
     @Override

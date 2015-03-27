@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.lines.ChainExample1;
 import ch.webk.actors.combined.complex.Car;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.CameraManipulator;
 import ch.webk.utils.Constants;
@@ -48,8 +49,6 @@ public class ChainStage extends GameStage {
         ActorGenerator.createChainExample1(points);
 
         car = new Car();
-        Gdx.input.setInputProcessor(this);
-        startDebugRenderer();
     }
 
     @Override
@@ -66,10 +65,6 @@ public class ChainStage extends GameStage {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        l.i("touchDown x"+x+", y="+y);
-
-
-
         return super.touchDown(x, y, pointer, button);
     }
 

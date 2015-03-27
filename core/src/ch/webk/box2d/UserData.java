@@ -19,7 +19,6 @@ public abstract class UserData {
     private float rotationFixRadians = 0;
     private boolean destroy = false;
     private ICollisionListener iCollisionListener;
-    private ArrayList<Joint> joints = new ArrayList<Joint>();
 
     public UserData(float width, float height) {
         this.width = width;
@@ -55,18 +54,6 @@ public abstract class UserData {
         return userDataType;
     }
 
-    public void addJointReference(Joint joint) {
-        joints.add(joint);
-    }
-
-    public void removeJointReference(Joint joint) {
-        joints.remove(joint);
-    }
-
-    public ArrayList<Joint> getJoints() {
-        return joints;
-    }
-
     public void setCollisionListener(ICollisionListener iCollisionListener) {
         this.iCollisionListener = iCollisionListener;
     }
@@ -84,10 +71,12 @@ public abstract class UserData {
     }
 
     public void setDestroy(boolean destroy) {
+        this.iCollisionListener = null;
         this.destroy = destroy;
     }
 
     public boolean getDestroy() {
-        return destroy;
+        return this.destroy;
     }
+
 }

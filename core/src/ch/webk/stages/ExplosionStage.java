@@ -90,10 +90,12 @@ public class ExplosionStage extends GameStage {
             public void touchUp(float screenX, float screenY, float worldX, float worldY) {
 
             }
-        });
 
-        Gdx.input.setInputProcessor(this);
-        //startDebugRenderer();
+            @Override
+            public void touchDragged(float screenX, float screenY, float worldX, float worldY) {
+
+            }
+        });
     }
 
     @Override

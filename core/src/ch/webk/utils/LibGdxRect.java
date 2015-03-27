@@ -12,6 +12,12 @@ public class LibGdxRect extends Rectangle {
         this.offsetY = offsetY;
     }
 
+    public void setOffsetYWorld(float offsetY) {
+        offsetY = GameMath.transformToScreen(offsetY);
+        y += offsetY;
+        this.offsetY = offsetY;
+    }
+
     public float getOffsetY() {
         return offsetY;
     }

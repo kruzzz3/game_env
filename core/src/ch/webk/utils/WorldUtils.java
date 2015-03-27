@@ -15,6 +15,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
+import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
@@ -22,17 +24,57 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import ch.webk.box2d.WallUserData;
+import ch.webk.box2d.SimpleUserData;
+import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.enums.State;
+import ch.webk.stages.GameStage;
 
 public class WorldUtils {
 
     private static Logger l = new Logger("WorldUtils", true);
 
     private static World world;
-    private static Stage stage;
+    private static GameStage stage;
     private static OrthographicCamera camera;
     private static Box2DDebugRenderer renderer;
     private static Matrix4 debugMatrix;
+    private static GameScreen screen;
+
+    public static void setScreen(GameScreen screen) {
+        WorldUtils.screen = screen;
+    }
+
+    public static boolean isRunning() {
+        if (getScreen().getState() == State.RUN) {
+            return true;
+        }
+        return false;
+    }
+
+    private static Body getDummyBody() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(new Vector2(0, 0));
+
+        Body dummyBody = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = getFixtureDef(1, 0, 0);
+        fixtureDef.isSensor = true;
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(1, 1);
+        fixtureDef.shape = shape;
+        dummyBody.createFixture(fixtureDef);
+        dummyBody.setUserData(new SimpleUserData(0,0));
+
+        dummyBody.resetMassData();
+        shape.dispose();
+        return dummyBody;
+    }
+
+    public static GameScreen getScreen() {
+        return screen;
+    }
 
     public static void setWorld(World world) {
         WorldUtils.world = world;
@@ -42,11 +84,11 @@ public class WorldUtils {
         return world;
     }
 
-    public static void setStage(Stage stage) {
+    public static void setStage(GameStage stage) {
         WorldUtils.stage = stage;
     }
 
-    public static Stage getStage() {
+    public static GameStage getStage() {
         return stage;
     }
 
@@ -176,6 +218,18 @@ public class WorldUtils {
         jointDef.localAnchorB.set(localAnchorB);
         jointDef.collideConnected = collideConnected;
         return (DistanceJoint) WorldUtils.getWorld().createJoint(jointDef);
+    }
+
+    public static MouseJoint createMouseJoint(Body b, boolean collideConnected) {
+        MouseJointDef jointDef = new MouseJointDef();
+        jointDef.bodyA = getDummyBody();
+        jointDef.bodyB = b;
+        jointDef.dampingRatio = 0.2f;
+        jointDef.frequencyHz = 20f;
+        jointDef.maxForce = (float) (2000.0f * b.getMass());
+        jointDef.collideConnected= collideConnected;
+        jointDef.target.set(b.getWorldCenter());
+        return (MouseJoint) WorldUtils.getWorld().createJoint(jointDef);
     }
 
     public static RopeJoint createRopeJoint(Body b1, Vector2 localAnchorA, Body b2, Vector2 localAnchorB, boolean collideConnected) {

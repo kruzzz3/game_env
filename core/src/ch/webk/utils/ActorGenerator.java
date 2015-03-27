@@ -10,6 +10,7 @@ import ch.webk.actors.combined.BarrelWood;
 import ch.webk.actors.combined.Bomb;
 import ch.webk.actors.combined.BoxWood;
 import ch.webk.actors.combined.Circle;
+import ch.webk.actors.combined.MonsterLand;
 import ch.webk.actors.combined.PolyRocket;
 import ch.webk.actors.combined.PolyStairs;
 import ch.webk.actors.combined.PolyStar;
@@ -20,9 +21,12 @@ import ch.webk.actors.combined.complex.CarBody;
 import ch.webk.actors.combined.complex.CarWheel;
 import ch.webk.actors.lines.ChainExample1;
 import ch.webk.actors.lines.Platform;
+import ch.webk.actors.sensor.Sensor;
 import ch.webk.box2d.BallUserData;
 import ch.webk.box2d.BoxUserData;
+import ch.webk.box2d.MonsterLandUserData;
 import ch.webk.box2d.PolyRocketUserData;
+import ch.webk.box2d.SensorUserData;
 import ch.webk.box2d.SimpleUserData;
 import ch.webk.box2d.TargetUserData;
 
@@ -206,6 +210,32 @@ public class ActorGenerator {
         body.setUserData(new SimpleUserData(0,0));
 
         ChainExample1 actor = new ChainExample1(body, points);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static MonsterLand createMonsterLand(String key, float posX, float posY, float width, float height) {
+        l.i("createMonsterLand() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.2f, 0.1f, 0f);
+        Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
+        body.setUserData(new MonsterLandUserData(width, height));
+
+        MonsterLand actor = new MonsterLand(body, key);
+        WorldUtils.addActor(actor);
+        return actor;
+    }
+
+    public static Sensor createSensor(float posX, float posY, float width, float height) {
+        l.i("createMonsterLand() posX=" + posX + ", posY=" + posY + ", width=" + width + ", height="+height);
+
+        FixtureDef fixtureDef = WorldUtils.getFixtureDef(0.1f, 0.1f, 0f);
+        fixtureDef.isSensor = true;
+        Body body = WorldUtils.getRectBody(fixtureDef, BodyDef.BodyType.DynamicBody, posX, posY, width, height);
+        body.setUserData(new SensorUserData());
+
+
+        Sensor actor = new Sensor(body);
         WorldUtils.addActor(actor);
         return actor;
     }
