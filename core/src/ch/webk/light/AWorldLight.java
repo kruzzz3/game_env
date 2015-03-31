@@ -11,7 +11,7 @@ import ch.webk.utils.Constants;
 
 public abstract class AWorldLight extends PositionalLight {
 
-    private static final int RAYS_NUM = 10;
+    private static final int RAYS_NUM = 32;
     private float lightDistance = 0;
     private float x = 0;
     private float y = 0;
@@ -21,6 +21,13 @@ public abstract class AWorldLight extends PositionalLight {
 
     public AWorldLight(RayHandler rayHandler, Color color, float lightDistance, float x, float y) {
         super(rayHandler, RAYS_NUM, color, lightDistance * Constants.WORLD_TO_SCREEN, x * Constants.WORLD_TO_SCREEN, y * Constants.WORLD_TO_SCREEN, 0);
+        this.lightDistance = lightDistance;
+        this.x = x;
+        this.y = y;
+    }
+
+    public AWorldLight(RayHandler rayHandler, Color color, float lightDistance, float x, float y, float directionDegree) {
+        super(rayHandler, RAYS_NUM, color, lightDistance * Constants.WORLD_TO_SCREEN, x * Constants.WORLD_TO_SCREEN, y * Constants.WORLD_TO_SCREEN, directionDegree);
         this.lightDistance = lightDistance;
         this.x = x;
         this.y = y;

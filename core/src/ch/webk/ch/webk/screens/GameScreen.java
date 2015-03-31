@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Iterator;
+
+import box2dLight.RayHandler;
 import ch.webk.enums.State;
 import ch.webk.stages.GameStage;
 import ch.webk.utils.Constants;
@@ -39,6 +42,15 @@ public class GameScreen implements Screen {
                 stage.act(delta);
                 Constants.deltaTime = Gdx.graphics.getDeltaTime();
                 stage.draw();
+
+                WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera().combined, WorldUtils.getCamera().position.x, WorldUtils.getCamera().position.y,WorldUtils.getCamera().viewportWidth, WorldUtils.getCamera().viewportHeight);
+                WorldUtils.getRayHandler().update();
+                WorldUtils.getRayHandler().render();
+
+                WorldUtils.getRayHandler2().setCombinedMatrix(WorldUtils.getCamera().combined, WorldUtils.getCamera().position.x, WorldUtils.getCamera().position.y,WorldUtils.getCamera().viewportWidth, WorldUtils.getCamera().viewportHeight);
+                WorldUtils.getRayHandler2().update();
+                WorldUtils.getRayHandler2().render();
+
                 break;
             case PAUSE:
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

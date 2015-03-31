@@ -24,6 +24,9 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import java.util.ArrayList;
+
+import box2dLight.RayHandler;
 import ch.webk.box2d.SimpleUserData;
 import ch.webk.ch.webk.screens.GameScreen;
 import ch.webk.enums.State;
@@ -39,9 +42,37 @@ public class WorldUtils {
     private static Box2DDebugRenderer renderer;
     private static Matrix4 debugMatrix;
     private static GameScreen screen;
+    private static RayHandler rayHandler;
+    private static RayHandler rayHandler2;
 
     public static void setScreen(GameScreen screen) {
         WorldUtils.screen = screen;
+    }
+
+    public static void initRayHandler() {
+        if (rayHandler != null) {
+            WorldUtils.rayHandler.dispose();
+            WorldUtils.rayHandler = null;
+        }
+        if (rayHandler2 != null) {
+            WorldUtils.rayHandler2.dispose();
+            WorldUtils.rayHandler2 = null;
+        }
+        WorldUtils.rayHandler = new RayHandler(WorldUtils.world);
+        WorldUtils.rayHandler.setShadows(true);
+        WorldUtils.rayHandler.setCulling(true);
+
+        WorldUtils.rayHandler2 = new RayHandler(WorldUtils.world);
+        WorldUtils.rayHandler2.setShadows(false);
+        WorldUtils.rayHandler2.setCulling(true);
+    }
+
+    public static RayHandler getRayHandler() {
+        return rayHandler;
+    }
+
+    public static RayHandler getRayHandler2() {
+        return rayHandler2;
     }
 
     public static boolean isRunning() {
