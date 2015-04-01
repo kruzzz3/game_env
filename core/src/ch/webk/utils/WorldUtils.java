@@ -1,7 +1,6 @@
 package ch.webk.utils;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -22,14 +20,10 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import java.util.ArrayList;
-
-import box2dLight.RayHandler;
 import ch.webk.box2d.SimpleUserData;
 import ch.webk.ch.webk.screens.GameScreen;
 import ch.webk.enums.State;
+import ch.webk.light.box2dLight.RayHandler;
 import ch.webk.stages.GameStage;
 
 public class WorldUtils {
@@ -43,7 +37,6 @@ public class WorldUtils {
     private static Matrix4 debugMatrix;
     private static GameScreen screen;
     private static RayHandler rayHandler;
-    private static RayHandler rayHandler2;
 
     public static void setScreen(GameScreen screen) {
         WorldUtils.screen = screen;
@@ -54,25 +47,15 @@ public class WorldUtils {
             WorldUtils.rayHandler.dispose();
             WorldUtils.rayHandler = null;
         }
-        if (rayHandler2 != null) {
-            WorldUtils.rayHandler2.dispose();
-            WorldUtils.rayHandler2 = null;
-        }
-        WorldUtils.rayHandler = new RayHandler(WorldUtils.world);
-        WorldUtils.rayHandler.setShadows(true);
-        WorldUtils.rayHandler.setCulling(true);
 
-        WorldUtils.rayHandler2 = new RayHandler(WorldUtils.world);
-        WorldUtils.rayHandler2.setShadows(false);
-        WorldUtils.rayHandler2.setCulling(true);
+        WorldUtils.rayHandler = new RayHandler(WorldUtils.world);
+        //WorldUtils.rayHandler.setShadows(true);
+        //WorldUtils.rayHandler.setCulling(true);
+
     }
 
     public static RayHandler getRayHandler() {
         return rayHandler;
-    }
-
-    public static RayHandler getRayHandler2() {
-        return rayHandler2;
     }
 
     public static boolean isRunning() {

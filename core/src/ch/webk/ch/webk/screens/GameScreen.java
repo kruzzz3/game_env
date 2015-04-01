@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
-
-import box2dLight.RayHandler;
 import ch.webk.enums.State;
 import ch.webk.stages.GameStage;
 import ch.webk.utils.Constants;
@@ -43,13 +40,10 @@ public class GameScreen implements Screen {
                 Constants.deltaTime = Gdx.graphics.getDeltaTime();
                 stage.draw();
 
-                WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera().combined, WorldUtils.getCamera().position.x, WorldUtils.getCamera().position.y,WorldUtils.getCamera().viewportWidth, WorldUtils.getCamera().viewportHeight);
+                WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera().combined, (int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+                WorldUtils.getRayHandler().useCustomViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
                 WorldUtils.getRayHandler().update();
                 WorldUtils.getRayHandler().render();
-
-                WorldUtils.getRayHandler2().setCombinedMatrix(WorldUtils.getCamera().combined, WorldUtils.getCamera().position.x, WorldUtils.getCamera().position.y,WorldUtils.getCamera().viewportWidth, WorldUtils.getCamera().viewportHeight);
-                WorldUtils.getRayHandler2().update();
-                WorldUtils.getRayHandler2().render();
 
                 break;
             case PAUSE:

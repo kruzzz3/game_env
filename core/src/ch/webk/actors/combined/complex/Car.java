@@ -1,13 +1,10 @@
 package ch.webk.actors.combined.complex;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 
 import java.util.ArrayList;
 
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
 import ch.webk.actors.combined.GameCombinedActor;
 import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.WorldUtils;

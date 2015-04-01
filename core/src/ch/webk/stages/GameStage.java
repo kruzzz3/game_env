@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.JointEdge;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -22,14 +21,12 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 import java.util.Iterator;
 
-import box2dLight.DirectionalLight;
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
 import ch.webk.IUIListener;
 import ch.webk.actors.GameActor;
 import ch.webk.actors.screen.hud.Hud;
 import ch.webk.box2d.UserData;
 import ch.webk.enums.Action;
+import ch.webk.light.box2dLight.PointLight;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BreakableTimer;
 import ch.webk.utils.Constants;
@@ -65,10 +62,15 @@ public abstract class GameStage extends Stage implements ContactListener {
         setUpCamera();
         WorldUtils.initRayHandler();
 
-        DirectionalLight light = new DirectionalLight(WorldUtils.getRayHandler(), 32, new Color(0.1f,0.1f,0.1f,0.5f),90);
-        light.setSoft(true);
-        light.setXray(true);
-        light.setSoftnessLength(1000000);
+        new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, Constants.APP_WIDTH / 2 / Constants.WORLD_TO_SCREEN, Constants.APP_HEIGHT / 2 / Constants.WORLD_TO_SCREEN);
+        //new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, 0, 0);
+
+        //new WorldPointLight();
+
+        //DirectionalLight light = new DirectionalLight(WorldUtils.getRayHandler(), 32, new Color(0.1f,0.1f,0.1f,0.6f),90);
+        //light.setSoft(true);
+        //light.setXray(true);
+        //light.setSoftnessLength(1000000);
         //PointLight pointLight = new PointLight( WorldUtils.getRayHandler(), 32, new Color(1f, 0.0f, 0.0f, 0.8f), 200, 0, 0);
 
         //pointLight.setXray(true);
