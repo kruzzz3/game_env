@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import ch.webk.utils.Constants;
+
 /**
  * Light which source is at infinite distance
  * 
@@ -112,7 +114,9 @@ public class DirectionalLight extends Light {
 			my[i] = end[i].y = steppedY + yAxelOffSet;
 
 			if (rayHandler.world != null && !xray) {
-				rayHandler.world.rayCast(ray, start[i], end[i]);
+                Vector2 startTemp = new Vector2(start[i].x / Constants.WORLD_TO_SCREEN, start[i].y / Constants.WORLD_TO_SCREEN);
+                Vector2 endTemp = new Vector2(end[i].x / Constants.WORLD_TO_SCREEN, end[i].y / Constants.WORLD_TO_SCREEN);
+                rayHandler.world.rayCast(ray, startTemp, endTemp);
 			}
 		}
 
@@ -155,7 +159,7 @@ public class DirectionalLight extends Light {
 		rayHandler.lightRenderedLastFrame++;
 		lightMesh.render(
 				rayHandler.lightShader, GL20.GL_TRIANGLE_STRIP, 0, vertexNum);
-		
+
 		if (soft && !xray) {
 			softShadowMesh.render(
 				rayHandler.lightShader, GL20.GL_TRIANGLE_STRIP, 0, vertexNum);

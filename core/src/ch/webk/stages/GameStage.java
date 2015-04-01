@@ -1,6 +1,7 @@
 package ch.webk.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -25,6 +26,7 @@ import ch.webk.actors.GameActor;
 import ch.webk.actors.screen.hud.Hud;
 import ch.webk.box2d.UserData;
 import ch.webk.enums.Action;
+import ch.webk.light.box2dLight.DirectionalLight;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BreakableTimer;
 import ch.webk.utils.Constants;
@@ -64,10 +66,14 @@ public abstract class GameStage extends Stage implements ContactListener {
         //new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, 0, 0);
 
         //new WorldPointLight();
-
-        //DirectionalLight light = new DirectionalLight(WorldUtils.getRayHandler(), 32, new Color(0.1f,0.1f,0.1f,0.6f),90);
+        Color c = new Color(0.75f, 0.75f, 0.5f, 0.75f);
+        c  = Color.BLACK;
+        c = new Color(c.r,c.g,c.b,0.7f);
+        DirectionalLight light = new DirectionalLight(WorldUtils.getRayHandler(), 32, c,-90);
         //light.setSoft(true);
-        //light.setXray(true);
+        light.setXray(true);
+        //light.setSoftnessLength(100000);
+
         //light.setSoftnessLength(1000000);
         //PointLight pointLight = new PointLight( WorldUtils.getRayHandler(), 32, new Color(1f, 0.0f, 0.0f, 0.8f), 200, 0, 0);
 

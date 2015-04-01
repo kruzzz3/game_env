@@ -49,8 +49,9 @@ public class WorldUtils {
         }
 
         WorldUtils.rayHandler = new RayHandler(WorldUtils.world);
-        //WorldUtils.rayHandler.setShadows(true);
-        //WorldUtils.rayHandler.setCulling(true);
+        WorldUtils.rayHandler.setShadows(true);
+        WorldUtils.rayHandler.setCulling(true);
+        WorldUtils.rayHandler.setBlur(true);
 
     }
 
