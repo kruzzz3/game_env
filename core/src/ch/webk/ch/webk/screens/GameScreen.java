@@ -51,11 +51,12 @@ public class GameScreen implements Screen {
     }
 
     private void renderGraphics(Rectangle viewport) {
-        //stage.draw();
+        Constants.drawHud = false;
         WorldUtils.getRayHandler().useCustomViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
         WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera());
         WorldUtils.getRayHandler().update();
         WorldUtils.getRayHandler().render();
+        Constants.drawHud = true;
         stage.draw();
     }
 

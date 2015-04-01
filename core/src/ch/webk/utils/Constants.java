@@ -1,6 +1,5 @@
 package ch.webk.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
@@ -14,6 +13,7 @@ public class Constants {
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 
     public static float deltaTime = 0;
+    public static boolean drawHud = false;
     public static int accXDegree = 0;
     public static int accYDegree = 0;
 

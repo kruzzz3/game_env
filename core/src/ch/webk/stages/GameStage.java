@@ -125,6 +125,8 @@ public abstract class GameStage extends Stage implements ContactListener {
         }
     }
 
+
+
     @Override
     public void act(float delta) {
         super.act(delta);

@@ -39,9 +39,11 @@ public abstract class GameHudActor extends GameActor {
     }
 
     protected void drawHudTextureRegion(Batch batch, TextureRegion textureRegion) {
-        float x = WorldUtils.getCamera().position.x + screenRectangle.x - WorldUtils.getCamera().viewportWidth/2;
-        float y = WorldUtils.getCamera().position.y + screenRectangle.y - WorldUtils.getCamera().viewportHeight/2;
-        batch.draw(textureRegion, x, y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
+        if (Constants.drawHud) {
+            float x = WorldUtils.getCamera().position.x + screenRectangle.x - WorldUtils.getCamera().viewportWidth / 2;
+            float y = WorldUtils.getCamera().position.y + screenRectangle.y - WorldUtils.getCamera().viewportHeight / 2;
+            batch.draw(textureRegion, x, y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
+        }
     }
 
     @Override
