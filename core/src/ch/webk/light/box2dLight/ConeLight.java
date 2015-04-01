@@ -3,6 +3,8 @@ package ch.webk.light.box2dLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
+import ch.webk.utils.Constants;
+
 /**
  * Light shaped as a circle's sector with given radius, direction and angle
  * 
@@ -35,10 +37,7 @@ public class ConeLight extends PositionalLight {
 	 * @param coneDegree
 	 *            half-size of cone light, centered over direction
 	 */
-	public ConeLight(RayHandler rayHandler, int rays, Color color,
-			float distance, float x, float y, float directionDegree,
-			float coneDegree) {
-
+	public ConeLight(RayHandler rayHandler, int rays, Color color, float distance, float x, float y, float directionDegree, float coneDegree) {
 		super(rayHandler, rays, color, distance, x, y, directionDegree);
 		setConeDegree(coneDegree);
 	}
@@ -91,6 +90,7 @@ public class ConeLight extends PositionalLight {
 	 */
 	public void setDistance(float dist) {
 		dist *= RayHandler.gammaCorrectionParameter;
+        dist *= Constants.WORLD_TO_SCREEN;
 		this.distance = dist < 0.01f ? 0.01f : dist;
 		dirty = true;
 	}

@@ -1,22 +1,25 @@
 package ch.webk.actors.combined;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.box2d.BallUserData;
+import ch.webk.light.box2dLight.PointLight;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.Constants;
 import ch.webk.utils.GameMath;
 import ch.webk.utils.Logger;
+import ch.webk.utils.WorldUtils;
 
 public class Ball extends GameCombinedActor {
 
     private Logger l = new Logger("Ball", true);
 
     private Animation animation;
-
+    private PointLight light;
 
     public Ball(Body body) {
         super(body);
@@ -33,8 +36,8 @@ public class Ball extends GameCombinedActor {
     }
 
     private void createLight() {
-        //light = new WorldPointLight();
-        //light.attachToBody(body,0,0);
+        light = new PointLight(WorldUtils.getRayHandler(), 36, Color.ORANGE, 8, 0, 0);
+        light.attachToBody(body,0,0);
     }
 
     @Override

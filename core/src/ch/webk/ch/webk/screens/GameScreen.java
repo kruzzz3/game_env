@@ -31,29 +31,32 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         Rectangle viewport = stage.getVp();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
         switch (state) {
             case RUN:
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-                //Update the stage
-                stage.act(delta);
                 Constants.deltaTime = Gdx.graphics.getDeltaTime();
-                stage.draw();
-
-                WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera().combined, (int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-                WorldUtils.getRayHandler().useCustomViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-                WorldUtils.getRayHandler().update();
-                WorldUtils.getRayHandler().render();
-
+                renderPhysics();
+                renderGraphics(viewport);
                 break;
             case PAUSE:
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
-                //Update the stage
                 Constants.deltaTime = 0;
-                stage.draw();
+                renderGraphics(viewport);
                 break;
         }
+    }
+
+    private void renderPhysics() {
+        stage.act(Constants.deltaTime);
+    }
+
+    private void renderGraphics(Rectangle viewport) {
+        //stage.draw();
+        WorldUtils.getRayHandler().useCustomViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+        WorldUtils.getRayHandler().setCombinedMatrix(WorldUtils.getCamera());
+        WorldUtils.getRayHandler().update();
+        WorldUtils.getRayHandler().render();
+        stage.draw();
     }
 
     @Override

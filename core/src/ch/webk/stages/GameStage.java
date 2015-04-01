@@ -1,7 +1,6 @@
 package ch.webk.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -26,7 +25,6 @@ import ch.webk.actors.GameActor;
 import ch.webk.actors.screen.hud.Hud;
 import ch.webk.box2d.UserData;
 import ch.webk.enums.Action;
-import ch.webk.light.box2dLight.PointLight;
 import ch.webk.utils.ActorManager;
 import ch.webk.utils.BreakableTimer;
 import ch.webk.utils.Constants;
@@ -62,7 +60,7 @@ public abstract class GameStage extends Stage implements ContactListener {
         setUpCamera();
         WorldUtils.initRayHandler();
 
-        new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, Constants.APP_WIDTH / 2 / Constants.WORLD_TO_SCREEN, Constants.APP_HEIGHT / 2 / Constants.WORLD_TO_SCREEN);
+        //new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, Constants.APP_WIDTH / 2 / Constants.WORLD_TO_SCREEN, Constants.APP_HEIGHT / 2 / Constants.WORLD_TO_SCREEN);
         //new PointLight(WorldUtils.getRayHandler(), 360, Color.ORANGE, 30, 0, 0);
 
         //new WorldPointLight();
