@@ -60,16 +60,6 @@ public abstract class GameStage extends Stage implements ContactListener {
         init();
     }
 
-    public GameStage(boolean useLight) {
-        super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
-        l.i("GameStage()");
-        if (useLight) {
-            useLight();
-            setBrightness(0.5f);
-        }
-        init();
-    }
-
     private void init() {
         BreakableTimer.clear();
         GameManager.setStage(this);
@@ -77,7 +67,6 @@ public abstract class GameStage extends Stage implements ContactListener {
         setUpWorld();
         setUpCamera();
 
-        hud = new Hud();
         //startDebugRenderer();
         Gdx.input.setInputProcessor(this);
     }

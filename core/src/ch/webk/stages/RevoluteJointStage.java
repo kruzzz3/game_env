@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.complex.Car;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.helper.Logger;
 import ch.webk.utils.manager.GameManager;
 import ch.webk.utils.manipulator.CameraManipulator;
@@ -24,6 +25,7 @@ public class RevoluteJointStage extends GameStage {
         setBrightness(0.4f);
         setUpFPS();
         car = new Car();
+        hud = new Hud();
     }
 
     @Override

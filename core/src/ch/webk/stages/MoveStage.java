@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Runner;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.GameMath;
@@ -29,6 +30,7 @@ public class MoveStage extends GameStage {
         setUpFPS();
         setUpWall();
         setUpRunner();
+        hud = new Hud();
     }
 
     @Override

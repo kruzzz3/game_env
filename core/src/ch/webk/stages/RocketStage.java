@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Target;
 import ch.webk.actors.screen.Background;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.GameMath;
@@ -39,6 +40,7 @@ public class RocketStage extends GameStage {
             @Override
             public void touchDragged(float screenX, float screenY, float worldX, float worldY) {}
         });
+        hud = new Hud();
     }
 
     @Override

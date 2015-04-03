@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import ch.webk.actors.combined.Bomb;
 import ch.webk.actors.combined.Fps;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.GameMath;
@@ -96,6 +97,7 @@ public class ExplosionStage extends GameStage {
 
             }
         });
+        hud = new Hud();
     }
 
     @Override

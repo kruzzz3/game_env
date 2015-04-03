@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.Logger;
@@ -38,6 +39,7 @@ public class DistanceJointStage extends GameStage {
         setUpCircleStatic();
         setUpCircleDynamic();
         GameManager.getWorld().setGravity(new Vector2(0,-10));
+        hud = new Hud();
     }
 
     @Override

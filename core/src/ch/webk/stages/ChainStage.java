@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.complex.Car;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.Logger;
 import ch.webk.utils.manager.GameManager;
@@ -19,7 +20,7 @@ public class ChainStage extends GameStage {
     private Car car;
 
     public ChainStage() {
-        super(true);
+        super();
         l.i("ChainStage()");
         setBrightness(0.1f);
         setUpFPS();
@@ -45,6 +46,7 @@ public class ChainStage extends GameStage {
         ActorGenerator.createChainExample1(points);
 
         car = new Car();
+        hud = new Hud();
     }
 
     @Override

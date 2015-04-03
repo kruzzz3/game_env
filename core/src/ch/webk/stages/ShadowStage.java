@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Target;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.lights.box2dLight.ConeLight;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.Logger;
@@ -64,6 +65,8 @@ public class ShadowStage extends GameStage {
                 target.setPosition(worldX, worldY);
             }
         });
+
+        hud = new Hud();
 
     }
 

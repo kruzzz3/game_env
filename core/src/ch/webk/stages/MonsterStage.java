@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
 import ch.webk.utils.helper.GameMath;
@@ -69,6 +70,7 @@ public class MonsterStage extends GameStage {
         });
 
         GameManager.getWorld().setGravity(new Vector2(0,-15));
+        hud = new Hud();
     }
 
     @Override

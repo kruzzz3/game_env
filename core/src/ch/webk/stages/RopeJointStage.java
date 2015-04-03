@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
+import ch.webk.actors.screen.hud.Hud;
 import ch.webk.box2d.UserData;
 import ch.webk.utils.Constants;
 import ch.webk.utils.actor.ActorGenerator;
@@ -65,6 +66,7 @@ public class RopeJointStage extends GameStage {
                 target = new Vector2(worldX,worldY);
             }
         });
+        hud = new Hud();
     }
 
     @Override
