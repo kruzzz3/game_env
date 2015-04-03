@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.box2d.TargetUserData;
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
 import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.Logger;
 
 public class Target extends GameCombinedActor {
 
@@ -40,7 +40,7 @@ public class Target extends GameCombinedActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        body.setTransform(x,y, body.getAngle());
+        body.setTransform(x,y,body.getAngle()+0.1f);
     }
 
     public Vector2 getPosition() {
@@ -48,9 +48,8 @@ public class Target extends GameCombinedActor {
     }
 
     public void setPosition(float xNew, float yNew) {
-        yNew = Constants.APP_HEIGHT - yNew;
-        x = xNew / Constants.WORLD_TO_SCREEN;
-        y = yNew / Constants.WORLD_TO_SCREEN;
+        x = xNew;
+        y = yNew;
     }
 
     @Override

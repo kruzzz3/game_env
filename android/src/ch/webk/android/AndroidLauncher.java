@@ -19,8 +19,8 @@ import ch.webk.IUIListener;
 import ch.webk.MyGame;
 import ch.webk.enums.Action;
 import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public class AndroidLauncher extends AndroidApplication implements SensorEventListener {
 
@@ -29,7 +29,6 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
     private static AndroidLauncher self;
-    //private Sensor senGyroscope;
 
     private AndroidApplicationConfiguration config;
 
@@ -99,6 +98,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
         menu.add(Menu.NONE, Constants.STAGE_CHAIN, Menu.NONE, "Chain");
         menu.add(Menu.NONE, Constants.STAGE_EXPLOSION, Menu.NONE, "Explosion");
         menu.add(Menu.NONE, Constants.STAGE_MONSTER, Menu.NONE, "Monsters");
+        menu.add(Menu.NONE, Constants.STAGE_SHADOW, Menu.NONE, "Shadow");
         return true;
     }
 
@@ -159,6 +159,12 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
                 initialize(game, config);
                 createUIActionListener();
                 return true;
+            case Constants.STAGE_SHADOW:
+                game.stop();
+                game = new MyGame(Constants.STAGE_SHADOW);
+                initialize(game, config);
+                createUIActionListener();
+                return true;
             default:
                 return false;
         }
@@ -170,7 +176,7 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
             @Override
             public void run() {
                 try {
-                    WorldUtils.getStage().setUIListener(new IUIListener() {
+                    GameManager.getStage().setUIListener(new IUIListener() {
                         @Override
                         public void sendUIAction(final Action action) {
                             runOnUiThread(new Runnable() {

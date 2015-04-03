@@ -1,20 +1,15 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.lines.ChainExample1;
 import ch.webk.actors.combined.complex.Car;
-import ch.webk.actors.screen.hud.Hud;
-import ch.webk.utils.ActorGenerator;
-import ch.webk.utils.CameraManipulator;
-import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manipulator.CameraManipulator;
 
 public class ChainStage extends GameStage {
 
@@ -24,8 +19,9 @@ public class ChainStage extends GameStage {
     private Car car;
 
     public ChainStage() {
-        super();
+        super(true);
         l.i("ChainStage()");
+        setBrightness(0.1f);
         setUpFPS();
 
         Vector2 points[] = new Vector2[16];
@@ -70,7 +66,7 @@ public class ChainStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override
@@ -78,7 +74,7 @@ public class ChainStage extends GameStage {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
         //Vector2 gravity = new Vector2(Constants.accXDegree / 10, Constants.accYDegree / 10);
-        WorldUtils.getWorld().setGravity(new Vector2(0,-15));
+        GameManager.getWorld().setGravity(new Vector2(0,-15));
         CameraManipulator.setPosition(car.getScreenX(), car.getScreenY());
     }
 

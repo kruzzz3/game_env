@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.actors.combined.GameCombinedActor;
 import ch.webk.box2d.SensorUserData;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.Logger;
 
 public class Sensor extends GameCombinedActor {
 

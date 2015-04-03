@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import java.util.ArrayList;
 
 import ch.webk.actors.combined.GameCombinedActor;
-import ch.webk.utils.ActorGenerator;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.manager.WorldManager;
 
 public class Car {
 
@@ -39,7 +39,7 @@ public class Car {
         actors.add(carWheel1);
 
         Vector2 localAnchorA = new Vector2(localAnchorAX, localAnchorAY);
-        j1 = WorldUtils.createRevoluteJoint(carWheel1.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA, false);
+        j1 = WorldManager.createRevoluteJoint(carWheel1.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA, false);
         j1.enableMotor(true);
         j1.setMaxMotorTorque(15);
 
@@ -52,7 +52,7 @@ public class Car {
         actors.add(carWheel2);
 
         Vector2 localAnchorA2 = new Vector2(localAnchorBX, localAnchorBY);
-        j2 = WorldUtils.createRevoluteJoint(carWheel2.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA2, false);
+        j2 = WorldManager.createRevoluteJoint(carWheel2.getBody(), Vector2.Zero, carBody.getBody(), localAnchorA2, false);
         j2.enableMotor(true);
         j2.setMaxMotorTorque(15);
 

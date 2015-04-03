@@ -1,6 +1,5 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,12 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Target;
 import ch.webk.actors.screen.Background;
-import ch.webk.actors.screen.hud.Hud;
-import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public class RocketStage extends GameStage {
 
@@ -28,6 +26,19 @@ public class RocketStage extends GameStage {
         //setUpBackground();
         setUpFPS();
         setUpTarget();
+
+        setTouchListener(new ITouchListener() {
+            @Override
+            public void touchDown(float screenX, float screenY, float worldX, float worldY) {
+                target.setPosition(worldX, worldY);
+            }
+
+            @Override
+            public void touchUp(float screenX, float screenY, float worldX, float worldY) {}
+
+            @Override
+            public void touchDragged(float screenX, float screenY, float worldX, float worldY) {}
+        });
     }
 
     @Override
@@ -46,19 +57,13 @@ public class RocketStage extends GameStage {
         return super.keyDown(keyCode);
     }
 
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        target.setPosition(x,y);
-        return super.touchDown(x, y, pointer, button);
-    }
-
     private void setUpBackground() {
         addActor(new Background());
     }
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override

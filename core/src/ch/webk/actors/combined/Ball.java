@@ -1,18 +1,22 @@
 package ch.webk.actors.combined;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Timer;
 
 import ch.webk.box2d.BallUserData;
-import ch.webk.light.box2dLight.PointLight;
-import ch.webk.utils.ActorManager;
+import ch.webk.box2d.IBeforeDestroyListener;
+import ch.webk.box2d.ICollisionListener;
+import ch.webk.lights.box2dLight.PointLight;
+import ch.webk.utils.helper.BreakableTimer;
+import ch.webk.utils.manager.ActorManager;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.helper.UDM;
+import ch.webk.utils.manager.LightManager;
 
 public class Ball extends GameCombinedActor {
 
@@ -21,9 +25,12 @@ public class Ball extends GameCombinedActor {
     private Animation animation;
     private PointLight light;
 
+    private boolean remove;
+    private Timer.Task task;
+
     public Ball(Body body) {
         super(body);
-
+        l.i("Ball");
         animation = ActorManager.getAnimation(Constants.BALL, 0.2f);
 
         float a = GameMath.getRandomFloat(0,20) - GameMath.getRandomFloat(0,20);
@@ -33,10 +40,43 @@ public class Ball extends GameCombinedActor {
 
         setIsTouchable(true);
         createLight();
+
+        UDM.getUserData(body).setCollisionListener(new ICollisionListener() {
+
+            @Override
+            public void beginContact(Body body) {
+
+                task = BreakableTimer.addTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        getUserData().setDestroy(true);
+                    }
+                }, 5000);
+            }
+
+            @Override
+            public void endContact(Body body) {
+                l.i("endContact");
+            }
+        });
+
+        UDM.getUserData(body).setBeforeDestroyListener(new IBeforeDestroyListener() {
+            @Override
+            public void beforeDestroy() {
+                dispose();
+            }
+        });
+
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
     }
 
     private void createLight() {
-        light = new PointLight(WorldUtils.getRayHandler(), 36, Color.ORANGE, 8, 0, 0);
+        light = new PointLight(LightManager.getRayHandler(), 36, LightManager.getRandColor(), UDM.getUserData(body).getHeight() * 3, 0, 0);
         light.attachToBody(body,0,0);
     }
 
@@ -52,7 +92,16 @@ public class Ball extends GameCombinedActor {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+        if (task != null) {
+            task.cancel();
+        }
+        if (light != null) {
+            light.setActive(false);
+            light.remove();
+            light = null;
+        }
+    }
 
     @Override
     public void resume() {}

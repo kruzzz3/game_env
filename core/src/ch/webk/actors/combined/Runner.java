@@ -8,11 +8,11 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 
 import ch.webk.box2d.RunnerUserData;
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public class Runner extends GameCombinedActor {
 
@@ -85,7 +85,7 @@ public class Runner extends GameCombinedActor {
         mjd.maxForce = (float) (2000.0f * body.getMass());
         mjd.collideConnected = true;
         mjd.target.set(body.getWorldCenter());
-        MouseJoint mj = (MouseJoint) WorldUtils.getWorld().createJoint(mjd);
+        MouseJoint mj = (MouseJoint) GameManager.getWorld().createJoint(mjd);
         return mj;
     }
 

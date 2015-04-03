@@ -2,23 +2,23 @@ package ch.webk.actors.screen;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.utils.Constants;
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
+import ch.webk.utils.helper.GameRectangle;
 
 public class Background extends Actor {
 
     private final TextureRegion textureRegion;
-    private Rectangle textureRegionBounds1;
-    private Rectangle textureRegionBounds2;
+    private GameRectangle textureRegionBounds1;
+    private GameRectangle textureRegionBounds2;
     private int speed = 100;
 
     public Background() {
         textureRegion = ActorManager.getTextureRegion("t_background");
-        textureRegionBounds1 = new Rectangle(0 - Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
-        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        textureRegionBounds1 = new GameRectangle(0 - Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        textureRegionBounds2 = new GameRectangle(Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Background extends Actor {
 
     private void resetBounds() {
         textureRegionBounds1 = textureRegionBounds2;
-        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        textureRegionBounds2 = new GameRectangle(Constants.APP_WIDTH, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
     }
 
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
 
 public class Fps extends Actor {
     private BitmapFont mBitmapFont;

@@ -2,12 +2,9 @@ package ch.webk.box2d;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Joint;
-
-import java.util.ArrayList;
 
 import ch.webk.enums.UserDataType;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.Logger;
 
 public abstract class UserData {
 
@@ -19,6 +16,7 @@ public abstract class UserData {
     private float rotationFixRadians = 0;
     private boolean destroy = false;
     private ICollisionListener iCollisionListener;
+    private IBeforeDestroyListener iBeforeDestroyListener;
 
     public UserData(float width, float height) {
         this.width = width;
@@ -54,6 +52,10 @@ public abstract class UserData {
         return userDataType;
     }
 
+    public void setBeforeDestroyListener(IBeforeDestroyListener iBeforeDestroyListener) {
+        this.iBeforeDestroyListener = iBeforeDestroyListener;
+    }
+
     public void setCollisionListener(ICollisionListener iCollisionListener) {
         this.iCollisionListener = iCollisionListener;
     }
@@ -72,6 +74,10 @@ public abstract class UserData {
 
     public void setDestroy(boolean destroy) {
         this.iCollisionListener = null;
+        if (this.iBeforeDestroyListener != null) {
+            this.iBeforeDestroyListener.beforeDestroy();
+            this.iBeforeDestroyListener = null;
+        }
         this.destroy = destroy;
     }
 

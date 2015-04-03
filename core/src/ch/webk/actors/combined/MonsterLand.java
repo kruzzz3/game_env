@@ -4,20 +4,17 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 
 import ch.webk.actors.sensor.Sensor;
-import ch.webk.box2d.BallUserData;
 import ch.webk.box2d.ICollisionListener;
 import ch.webk.box2d.MonsterLandUserData;
 import ch.webk.box2d.UserData;
-import ch.webk.utils.ActorGenerator;
-import ch.webk.utils.ActorManager;
-import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.UDM;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.manager.ActorManager;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.helper.UDM;
+import ch.webk.utils.manager.WorldManager;
 
 public class MonsterLand extends GameCombinedActor {
 
@@ -53,7 +50,7 @@ public class MonsterLand extends GameCombinedActor {
             @Override
             public void endContact(Body body) { l.i("sLeft E");}
         });
-        WorldUtils.createRevoluteJoint(sLeft.getBody(), Vector2.Zero, body, posTempL, false);
+        WorldManager.createRevoluteJoint(sLeft.getBody(), Vector2.Zero, body, posTempL, false);
 
         Vector2 posTempR = GameMath.rotateVector2Radians(new Vector2(UDM.getUserData(body).getWidth() / 2, 0), body.getAngle());
         Vector2 posR = new Vector2(body.getWorldCenter().x + posTempR.x, body.getWorldCenter().y + posTempR.y);
@@ -67,7 +64,7 @@ public class MonsterLand extends GameCombinedActor {
             @Override
             public void endContact(Body body) { l.i("sRight E");}
         });
-        WorldUtils.createRevoluteJoint(sRight.getBody(), Vector2.Zero, body, posTempR, false);
+        WorldManager.createRevoluteJoint(sRight.getBody(), Vector2.Zero, body, posTempR, false);
 
         Vector2 posTempT = GameMath.rotateVector2Radians(new Vector2(0, UDM.getUserData(body).getHeight() / 2), body.getAngle());
         Vector2 posT = new Vector2(body.getWorldCenter().x + posTempT.x, body.getWorldCenter().y + posTempT.y);
@@ -81,7 +78,7 @@ public class MonsterLand extends GameCombinedActor {
             @Override
             public void endContact(Body body) { l.i("sTop E");}
         });
-        WorldUtils.createRevoluteJoint(sTop.getBody(), Vector2.Zero, body, posTempT, false);
+        WorldManager.createRevoluteJoint(sTop.getBody(), Vector2.Zero, body, posTempT, false);
 
         walkLeft();
     }

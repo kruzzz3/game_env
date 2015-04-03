@@ -5,12 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.box2d.SimpleUserData;
-import ch.webk.box2d.UserData;
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.LibGdxRect;
-import ch.webk.utils.WorldUtils;
 
 public class ChainExample1 extends AChain {
 

@@ -1,6 +1,5 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.Runner;
-import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public class MoveStage extends GameStage {
 
@@ -36,12 +35,9 @@ public class MoveStage extends GameStage {
     public boolean touchDown(int x, int y, int pointer, int button) {
         l.i("touchDown x"+x+", y="+y);
 
-
-        l.i("touchDown c x"+WorldUtils.getCamera().position.x+", y="+WorldUtils.getCamera().position.y);
-
         float xWorld = x / Constants.WORLD_TO_SCREEN;
-        y = (int) Constants.APP_HEIGHT -y;
-        float yWorld = y / Constants.WORLD_TO_SCREEN;
+        float ty = (int) Constants.APP_HEIGHT -y;
+        float yWorld = ty / Constants.WORLD_TO_SCREEN;
         Vector2 v1 = new Vector2(xWorld, yWorld);
         Vector2 v2 = runner.getBody().getPosition();
 
@@ -56,7 +52,7 @@ public class MoveStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override
@@ -96,7 +92,7 @@ public class MoveStage extends GameStage {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(new Vector2(xWorld, yWorld));
 
-        defaultBody = WorldUtils.getWorld().createBody(bodyDef);
+        defaultBody = GameManager.getWorld().createBody(bodyDef);
 
         //mouse = runner.mouse(defaultBody);
     }

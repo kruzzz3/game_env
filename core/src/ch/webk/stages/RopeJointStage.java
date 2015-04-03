@@ -1,25 +1,22 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
 import ch.webk.box2d.UserData;
-import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manager.WorldManager;
 
 public class RopeJointStage extends GameStage {
 
@@ -47,7 +44,7 @@ public class RopeJointStage extends GameStage {
         setUpCircleStatic();
         setUpCircleDynamic();
 
-        WorldUtils.getWorld().setGravity(new Vector2(0,-15));
+        GameManager.getWorld().setGravity(new Vector2(0,-15));
 
         setTouchListener(new ITouchListener() {
             @Override
@@ -90,7 +87,7 @@ public class RopeJointStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override
@@ -124,7 +121,7 @@ public class RopeJointStage extends GameStage {
         circleDynamic1.setTouchListener(new ch.webk.actors.ITouchListener() {
             @Override
             public void touchDown() {
-                mj = WorldUtils.createMouseJoint(circleDynamic1.getBody(), true);
+                mj = WorldManager.createMouseJoint(circleDynamic1.getBody(), true);
                 target = mj.getTarget();
             }
 
@@ -136,7 +133,7 @@ public class RopeJointStage extends GameStage {
         circleDynamic2.setTouchListener(new ch.webk.actors.ITouchListener() {
             @Override
             public void touchDown() {
-                mj = WorldUtils.createMouseJoint(circleDynamic2.getBody(), true);
+                mj = WorldManager.createMouseJoint(circleDynamic2.getBody(), true);
                 target = mj.getTarget();
             }
 
@@ -148,7 +145,7 @@ public class RopeJointStage extends GameStage {
         circleDynamic3.setTouchListener(new ch.webk.actors.ITouchListener() {
             @Override
             public void touchDown() {
-                mj = WorldUtils.createMouseJoint(circleDynamic3.getBody(), true);
+                mj = WorldManager.createMouseJoint(circleDynamic3.getBody(), true);
                 target = mj.getTarget();
             }
 
@@ -160,7 +157,7 @@ public class RopeJointStage extends GameStage {
         circleDynamic4.setTouchListener(new ch.webk.actors.ITouchListener() {
             @Override
             public void touchDown() {
-                mj = WorldUtils.createMouseJoint(circleDynamic4.getBody(), true);
+                mj = WorldManager.createMouseJoint(circleDynamic4.getBody(), true);
                 target = mj.getTarget();
             }
 
@@ -175,11 +172,11 @@ public class RopeJointStage extends GameStage {
     }
 
     private void createElasticJoint(Body b1, Body b2, float bouncy, float minLength, float maxLength) {
-        DistanceJoint distanceJoint = WorldUtils.createDistanceJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
+        DistanceJoint distanceJoint = WorldManager.createDistanceJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
         distanceJoint.setFrequency(bouncy);
         distanceJoint.setLength(minLength);
 
-        RopeJoint ropeJoint = WorldUtils.createRopeJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
+        RopeJoint ropeJoint = WorldManager.createRopeJoint(b1, Vector2.Zero, b2, Vector2.Zero, true);
         ropeJoint.setMaxLength(maxLength);
     }
 

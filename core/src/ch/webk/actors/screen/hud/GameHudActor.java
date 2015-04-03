@@ -4,15 +4,17 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ch.webk.actors.GameActor;
-import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.lights.box2dLight.FixedAreaLight;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manager.LightManager;
 
 public abstract class GameHudActor extends GameActor {
 
     private Logger l = new Logger("GameHudActor", true);
     private ITouchListener iTouchListener;
+    private FixedAreaLight fixedAreaLight;
 
     public GameHudActor(float x, float y, float width, float height, float rotDegree) {
         screenRectangle.x = GameMath.transformToScreen(x - width / 2);
@@ -20,6 +22,9 @@ public abstract class GameHudActor extends GameActor {
         screenRectangle.width = GameMath.transformToScreen(width);
         screenRectangle.height = GameMath.transformToScreen(height);
         screenRectangle.rotationDegree = rotDegree;
+        if (LightManager.getRayHandler() != null) {
+            fixedAreaLight = new FixedAreaLight(LightManager.getClearColor(), x, y, width, height);
+        }
     }
 
     public void setTouchListener(ITouchListener iTouchListener) {
@@ -29,8 +34,8 @@ public abstract class GameHudActor extends GameActor {
     @Override
     public boolean checkTouch(int x, int y) {
         if (isTouchable) {
-            y += (int) (WorldUtils.getCamera().viewportHeight/2 - WorldUtils.getCamera().position.y);
-            x += (int) (WorldUtils.getCamera().viewportWidth/2 - WorldUtils.getCamera().position.x);
+            y += (int) (GameManager.getCamera().viewportHeight/2 - GameManager.getCamera().position.y);
+            x += (int) (GameManager.getCamera().viewportWidth/2 - GameManager.getCamera().position.x);
             if (screenRectangle.contains(x, y)) {
                 return true;
             }
@@ -39,11 +44,9 @@ public abstract class GameHudActor extends GameActor {
     }
 
     protected void drawHudTextureRegion(Batch batch, TextureRegion textureRegion) {
-        if (Constants.drawHud) {
-            float x = WorldUtils.getCamera().position.x + screenRectangle.x - WorldUtils.getCamera().viewportWidth / 2;
-            float y = WorldUtils.getCamera().position.y + screenRectangle.y - WorldUtils.getCamera().viewportHeight / 2;
-            batch.draw(textureRegion, x, y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
-        }
+        float x = GameManager.getCamera().position.x + screenRectangle.x - GameManager.getCamera().viewportWidth / 2;
+        float y = GameManager.getCamera().position.y + screenRectangle.y - GameManager.getCamera().viewportHeight / 2;
+        batch.draw(textureRegion, x, y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
     @Override
@@ -57,11 +60,17 @@ public abstract class GameHudActor extends GameActor {
     public void activate() {
         setVisible(true);
         setIsTouchable(true);
+        if (fixedAreaLight != null) {
+            fixedAreaLight.setActive(true);
+        }
     }
 
     public void deactivate() {
         setIsTouchable(false);
         setVisible(false);
+        if (fixedAreaLight != null) {
+            fixedAreaLight.setActive(false);
+        }
     }
 
 }

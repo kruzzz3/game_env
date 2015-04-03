@@ -2,7 +2,7 @@ package ch.webk;
 
 import com.badlogic.gdx.Game;
 
-import ch.webk.ch.webk.screens.GameScreen;
+import ch.webk.screens.GameScreen;
 import ch.webk.stages.ChainStage;
 import ch.webk.stages.DistanceJointStage;
 import ch.webk.stages.ExplosionStage;
@@ -12,8 +12,9 @@ import ch.webk.stages.PolyStage;
 import ch.webk.stages.RevoluteJointStage;
 import ch.webk.stages.RocketStage;
 import ch.webk.stages.RopeJointStage;
+import ch.webk.stages.ShadowStage;
 import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.Logger;
 
 public class MyGame extends Game {
 
@@ -64,6 +65,10 @@ public class MyGame extends Game {
             case Constants.STAGE_MONSTER:
                 l.i("create setScreen Monster");
                 setScreen(new GameScreen(new MonsterStage()));
+                break;
+            case Constants.STAGE_SHADOW:
+                l.i("create setScreen Shadow");
+                setScreen(new GameScreen(new ShadowStage()));
                 break;
         }
     }

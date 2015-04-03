@@ -1,6 +1,5 @@
 package ch.webk.box2d;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -9,10 +8,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import ch.webk.utils.ActorManager;
-import ch.webk.utils.BodyUtils;
-import ch.webk.utils.Constants;
 
 public class CustomRayCastCallback implements RayCastCallback {
 

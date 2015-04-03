@@ -1,23 +1,15 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import java.util.ArrayList;
-
-import ch.webk.actors.combined.Bomb;
 import ch.webk.actors.combined.Fps;
-import ch.webk.actors.combined.Runner;
-import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public class MonsterStage extends GameStage {
 
@@ -76,7 +68,7 @@ public class MonsterStage extends GameStage {
             }
         });
 
-        WorldUtils.getWorld().setGravity(new Vector2(0,-15));
+        GameManager.getWorld().setGravity(new Vector2(0,-15));
     }
 
     @Override
@@ -99,7 +91,7 @@ public class MonsterStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override

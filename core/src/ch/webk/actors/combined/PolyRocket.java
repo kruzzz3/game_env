@@ -10,13 +10,13 @@ import ch.webk.actors.screen.Explosion;
 import ch.webk.box2d.ICollisionListener;
 import ch.webk.box2d.PolyRocketUserData;
 import ch.webk.box2d.UserData;
-import ch.webk.utils.ActorManager;
-import ch.webk.utils.BodyUtils;
-import ch.webk.utils.Box2dManipulator;
-import ch.webk.utils.BreakableTimer;
+import ch.webk.utils.manager.ActorManager;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manipulator.Box2dManipulator;
+import ch.webk.utils.helper.BreakableTimer;
 import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.helper.UDM;
 
 public class PolyRocket extends GameCombinedActor {
 
@@ -46,7 +46,7 @@ public class PolyRocket extends GameCombinedActor {
             @Override
             public void beginContact(Body body) {
                 l.i("beginContact");
-                if (BodyUtils.bodyIsTarget(body)) {
+                if (UDM.bodyIsTarget(body)) {
                     explode();
                     getUserData().setDestroy(true);
                 }
@@ -74,7 +74,7 @@ public class PolyRocket extends GameCombinedActor {
     private void explode() {
         task.cancel();
         float width = ((UserData)body.getUserData()).getWidth() * 1.5f;
-        WorldUtils.addActor(new Explosion(body.getWorldCenter().x, body.getWorldCenter().y, width, width, 0));
+        GameManager.addActor(new Explosion(body.getWorldCenter().x, body.getWorldCenter().y, width, width, 0));
     }
 
     @Override
@@ -128,7 +128,9 @@ public class PolyRocket extends GameCombinedActor {
 
     @Override
     public void dispose() {
-        task.cancel();
+        if (task != null) {
+            task.cancel();
+        }
     }
 
     @Override

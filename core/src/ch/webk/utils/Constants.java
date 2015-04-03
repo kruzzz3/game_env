@@ -13,7 +13,6 @@ public class Constants {
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, 0);
 
     public static float deltaTime = 0;
-    public static boolean drawHud = false;
     public static int accXDegree = 0;
     public static int accYDegree = 0;
 
@@ -26,6 +25,7 @@ public class Constants {
     public static final int STAGE_CHAIN = 7;
     public static final int STAGE_EXPLOSION = 8;
     public static final int STAGE_MONSTER = 9;
+    public static final int STAGE_SHADOW = 10;
 
     public static final String BANNER = "t_banner";
     public static final String BTN_BREAK = "t_btn_break";

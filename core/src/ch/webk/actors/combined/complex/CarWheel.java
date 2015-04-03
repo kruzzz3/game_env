@@ -6,9 +6,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.actors.combined.GameCombinedActor;
 import ch.webk.box2d.SimpleUserData;
-import ch.webk.utils.ActorManager;
+import ch.webk.utils.manager.ActorManager;
 import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.Logger;
 
 public class CarWheel extends GameCombinedActor {
 

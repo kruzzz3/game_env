@@ -3,11 +3,8 @@ package ch.webk.actors.screen.hud;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ch.webk.actors.screen.GameScreenActor;
-import ch.webk.utils.ActorManager;
-import ch.webk.utils.Constants;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.manager.ActorManager;
+import ch.webk.utils.helper.Logger;
 
 public class Button extends GameHudActor {
 

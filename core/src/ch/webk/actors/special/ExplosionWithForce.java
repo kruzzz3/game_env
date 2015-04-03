@@ -2,17 +2,15 @@ package ch.webk.actors.special;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.actors.screen.Explosion;
-import ch.webk.utils.BodyUtils;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
 import ch.webk.box2d.CustomRayCastCallback;
+import ch.webk.utils.helper.UDM;
+import ch.webk.utils.manager.GameManager;
 
 public class ExplosionWithForce extends Explosion {
 
@@ -48,10 +46,10 @@ public class ExplosionWithForce extends Explosion {
             final int j = i;
 
             CustomRayCastCallback customRayCastCallback = new CustomRayCastCallback();
-            WorldUtils.getWorld().rayCast(customRayCastCallback, from, to);
+            GameManager.getWorld().rayCast(customRayCastCallback, from, to);
             Body body = customRayCastCallback.getNearestBody();
             l.i("body="+body);
-            if (BodyUtils.bodyIsBox(body)) {
+            if (UDM.bodyIsBox(body)) {
                 Vector2 point = customRayCastCallback.getNearestPoint();
                 Vector2 strength = new Vector2(point.x - from.x, point.y - from.y);
 

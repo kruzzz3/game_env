@@ -6,22 +6,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.utils.Constants;
-import ch.webk.utils.LibGdxRect;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.GameRectangle;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
 
 public abstract class GameActor extends Actor {
 
     private Logger l = new Logger("GameActor", true);
 
-    protected LibGdxRect screenRectangle;
+    protected GameRectangle screenRectangle;
     protected boolean isTouchable = false;
     private float stateTime = 0;
 
     private ITouchListener iTouchListener;
 
     public GameActor() {
-        screenRectangle = new LibGdxRect();
+        screenRectangle = new GameRectangle();
     }
 
     public float getScreenX() {
@@ -52,44 +52,34 @@ public abstract class GameActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.setProjectionMatrix(WorldUtils.getCamera().combined);
+        batch.setProjectionMatrix(GameManager.getCamera().combined);
     }
 
     protected void drawTextureRegion(Batch batch, TextureRegion textureRegion) {
-        if (!Constants.drawHud) {
-            batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
-        }
+        batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
-    protected void drawTextureRegion(Batch batch, LibGdxRect screenRectangle, TextureRegion textureRegion) {
-        if (!Constants.drawHud) {
-            batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
-        }
+    protected void drawTextureRegion(Batch batch, GameRectangle screenRectangle, TextureRegion textureRegion) {
+        batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
     protected void drawLoopAnimation(Batch batch, Animation animation) {
-        if (!Constants.drawHud) {
-            stateTime += Constants.deltaTime;
-            batch.draw(animation.getKeyFrame(stateTime, true), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
-        }
+        stateTime += Constants.deltaTime;
+        batch.draw(animation.getKeyFrame(stateTime, true), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
     protected void drawLoopAnimation(Batch batch, Animation animation, boolean flipX) {
-        if (!Constants.drawHud) {
-            stateTime += Constants.deltaTime;
-            TextureRegion textureRegion = animation.getKeyFrame(stateTime, true);
-            if (textureRegion.isFlipX() != flipX) {
-                textureRegion.flip(true, false);
-            }
-            batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
+        stateTime += Constants.deltaTime;
+        TextureRegion textureRegion = animation.getKeyFrame(stateTime, true);
+        if (textureRegion.isFlipX() != flipX) {
+            textureRegion.flip(true, false);
         }
+        batch.draw(textureRegion, screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
     protected void drawAnimation(Batch batch, Animation animation) {
-        if (!Constants.drawHud) {
-            stateTime += Constants.deltaTime;
-            batch.draw(animation.getKeyFrame(stateTime, false), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
-        }
+        stateTime += Constants.deltaTime;
+        batch.draw(animation.getKeyFrame(stateTime, false), screenRectangle.x, screenRectangle.y, screenRectangle.width * 0.5f, screenRectangle.height * 0.5f, screenRectangle.width, screenRectangle.height, 1f, 1f, screenRectangle.rotationDegree);
     }
 
     protected void setIsTouchable(boolean isTouchable) {

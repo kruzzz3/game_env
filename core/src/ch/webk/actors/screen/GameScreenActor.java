@@ -1,8 +1,8 @@
 package ch.webk.actors.screen;
 
 import ch.webk.actors.GameActor;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
 
 public abstract class GameScreenActor extends GameActor {
 

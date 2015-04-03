@@ -1,21 +1,18 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Circle;
 import ch.webk.actors.combined.Fps;
-import ch.webk.utils.ActorGenerator;
 import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.actor.ActorGenerator;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manager.WorldManager;
 
 public class DistanceJointStage extends GameStage {
 
@@ -40,7 +37,7 @@ public class DistanceJointStage extends GameStage {
         setUpFPS();
         setUpCircleStatic();
         setUpCircleDynamic();
-        WorldUtils.getWorld().setGravity(new Vector2(0,-10));
+        GameManager.getWorld().setGravity(new Vector2(0,-10));
     }
 
     @Override
@@ -63,7 +60,7 @@ public class DistanceJointStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override
@@ -97,11 +94,11 @@ public class DistanceJointStage extends GameStage {
         circleDynamic4 = ActorGenerator.createCircle(x + (2 * r) + tol,y,r, BodyDef.BodyType.DynamicBody);
         circleDynamic5 = ActorGenerator.createCircle(x + (4 * r) + tol,y,r, BodyDef.BodyType.DynamicBody);
 
-        WorldUtils.createDistanceJoint(circleStatic1.getBody(), Vector2.Zero, circleDynamic1.getBody(), Vector2.Zero, true);
-        WorldUtils.createDistanceJoint(circleStatic2.getBody(), Vector2.Zero, circleDynamic2.getBody(), Vector2.Zero, true);
-        WorldUtils.createDistanceJoint(circleStatic3.getBody(), Vector2.Zero, circleDynamic3.getBody(), Vector2.Zero, true);
-        WorldUtils.createDistanceJoint(circleStatic4.getBody(), Vector2.Zero, circleDynamic4.getBody(), Vector2.Zero, true);
-        WorldUtils.createDistanceJoint(circleStatic5.getBody(), Vector2.Zero, circleDynamic5.getBody(), Vector2.Zero, true);
+        WorldManager.createDistanceJoint(circleStatic1.getBody(), Vector2.Zero, circleDynamic1.getBody(), Vector2.Zero, true);
+        WorldManager.createDistanceJoint(circleStatic2.getBody(), Vector2.Zero, circleDynamic2.getBody(), Vector2.Zero, true);
+        WorldManager.createDistanceJoint(circleStatic3.getBody(), Vector2.Zero, circleDynamic3.getBody(), Vector2.Zero, true);
+        WorldManager.createDistanceJoint(circleStatic4.getBody(), Vector2.Zero, circleDynamic4.getBody(), Vector2.Zero, true);
+        WorldManager.createDistanceJoint(circleStatic5.getBody(), Vector2.Zero, circleDynamic5.getBody(), Vector2.Zero, true);
     }
 
 }

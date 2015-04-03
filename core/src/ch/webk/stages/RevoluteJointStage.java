@@ -1,17 +1,14 @@
 package ch.webk.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ch.webk.actors.combined.Fps;
 import ch.webk.actors.combined.complex.Car;
-import ch.webk.utils.CameraManipulator;
-import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.Logger;
+import ch.webk.utils.manager.GameManager;
+import ch.webk.utils.manipulator.CameraManipulator;
 
 public class RevoluteJointStage extends GameStage {
 
@@ -23,8 +20,9 @@ public class RevoluteJointStage extends GameStage {
     public RevoluteJointStage() {
         super();
         l.i("RevoluteJointStage()");
+        useLight();
+        setBrightness(0.4f);
         setUpFPS();
-
         car = new Car();
     }
 
@@ -48,7 +46,7 @@ public class RevoluteJointStage extends GameStage {
 
     private void setUpFPS() {
         fps = new Fps();
-        WorldUtils.addActor(fps);
+        GameManager.addActor(fps);
     }
 
     @Override
@@ -56,7 +54,7 @@ public class RevoluteJointStage extends GameStage {
         fps.setZIndex(fps.getZIndex()+5);
         super.act(delta);
         //Vector2 gravity = new Vector2(Constants.accXDegree / 10, Constants.accYDegree / 10);
-        WorldUtils.getWorld().setGravity(new Vector2(0,-1));
+        GameManager.getWorld().setGravity(new Vector2(0,-1));
         CameraManipulator.setPosition(car.getScreenX(), car.getScreenY());
     }
 

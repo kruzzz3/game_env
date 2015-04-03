@@ -4,11 +4,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import ch.webk.actors.GameActor;
 import ch.webk.box2d.UserData;
-import ch.webk.utils.Constants;
-import ch.webk.utils.GameMath;
-import ch.webk.utils.Logger;
-import ch.webk.utils.UDM;
-import ch.webk.utils.WorldUtils;
+import ch.webk.utils.helper.GameMath;
+import ch.webk.utils.helper.Logger;
 
 public abstract class GameCombinedActor extends GameActor {
 
