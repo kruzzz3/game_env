@@ -22,6 +22,7 @@ public class ChainStage extends GameStage {
     public ChainStage() {
         super();
         l.i("ChainStage()");
+        useLight();
         setBrightness(0.1f);
         setUpFPS();
 
